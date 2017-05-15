@@ -30,9 +30,17 @@ class NetMgr{
    public  onmessage (ev: MessageEvent){
        console.log("[WS REC]:"+ev.data);
        let data:msg=ev.data;
-       msgProcess["on"+data.itype](data.data);
+      
    }
    
+   /**
+    * 解析消息，找到相应办法处理
+    */
+   public analyJson(json:string){
+        let data=JSON.parse(json);
+        msgProcess["on"+data.itype](data.data);
+   }
+
    public WSsend(msg:msg ){
        this.ws.send(msg);
        console.log("[WS send]:"+msg.itype);    
@@ -54,9 +62,8 @@ class NetMgr{
        data:msg.data,       
        },
        success:function(data,textStatus,jqXHR){
-          console.error("SUCCESS");
-          console.log(data);
-          //TODO 跳转
+          console.log("[ajax rec]:"+data);
+          this.analyJson(data);
       }
        
    }
@@ -69,7 +76,7 @@ class NetMgr{
 }
 
 /**
- * 窗口关闭事件
+ * 注册窗口关闭事件
  */
 window.onbeforeunload=()=>{
     alert("确定关闭？");
