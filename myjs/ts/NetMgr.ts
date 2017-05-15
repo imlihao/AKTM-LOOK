@@ -36,9 +36,9 @@ class NetMgr{
    /**
     * 解析消息，找到相应办法处理
     */
-   public analyJson(json:string){
+   public　static analyJson(json:string){
         let data=JSON.parse(json);
-        msgProcess["on"+data.itype](data.data);
+        msgProcess["on"+data.itype](data);
    }
 
    public WSsend(msg:msg ){
@@ -63,7 +63,7 @@ class NetMgr{
        },
        success:function(data,textStatus,jqXHR){
           console.log("[ajax rec]:"+data);
-          this.analyJson(data);
+          NetMgr.analyJson(data);
       }
        
    }
@@ -114,4 +114,12 @@ class msgType {
 
   public static login:string="login";
   public static logout:string="logout";
+
+  public static alret:string="alret";
+  public static lodOp:string="lodOp";
+  public static cusOp:string="cusOp";
+  public static tpsOp:string="tpsOp";
+  public static odoOp:string="odoOp";
+  public static sysOp:string="sysOp";
+  public static invOp:string="invOp";
 }

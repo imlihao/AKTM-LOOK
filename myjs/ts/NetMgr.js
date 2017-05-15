@@ -25,7 +25,13 @@ var NetMgr = (function () {
     NetMgr.prototype.onmessage = function (ev) {
         console.log("[WS REC]:" + ev.data);
         var data = ev.data;
-        msgProcess["on" + data.itype](data.data);
+    };
+    /**
+     * 解析消息，找到相应办法处理
+     */
+    NetMgr.analyJson = function (json) {
+        var data = JSON.parse(json);
+        msgProcess["on" + data.itype](data);
     };
     NetMgr.prototype.WSsend = function (msg) {
         this.ws.send(msg);
@@ -47,9 +53,8 @@ var NetMgr = (function () {
                 data: msg.data,
             },
             success: function (data, textStatus, jqXHR) {
-                console.error("SUCCESS");
-                console.log(data);
-                //TODO 跳转
+                console.log("[ajax rec]:" + data);
+                NetMgr.analyJson(data);
             }
         });
     };
@@ -59,7 +64,7 @@ var NetMgr = (function () {
     return NetMgr;
 }());
 /**
- * 窗口关闭事件
+ * 注册窗口关闭事件
  */
 window.onbeforeunload = function () {
     alert("确定关闭？");
@@ -91,3 +96,10 @@ msgType.urlajax = 'http://127.0.0.1:8090/AKTM-new-1/htttpajax';
 msgType.urlws = 'ws://127.0.0.1:8090/AKTM-new-1/websocket';
 msgType.login = "login";
 msgType.logout = "logout";
+msgType.alret = "alret";
+msgType.lodOp = "lodOp";
+msgType.cusOp = "cusOp";
+msgType.tpsOp = "tpsOp";
+msgType.odoOp = "odoOp";
+msgType.sysOp = "sysOp";
+msgType.invOp = "invOp";
