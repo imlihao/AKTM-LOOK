@@ -1,6 +1,7 @@
 namespace msgProcess {
-  export function onlogin(da:msgClass.CSloginMsg) {
+  export function onlogin(da:msgClass.SCupdateAll) {
       window.location.href= "index.html";
+      dataManager.instance.data=da;
       //TODO　
   }
   
@@ -27,7 +28,7 @@ namespace msgClass{
  */
  export class SCupdateAll{
    itype=msgType.login;
-  sysu:vo.sysuer;
+   sysu:vo.sysuer;
 	 invs:vo.invoice[];
 	 sysusers:vo.sysuer[];
 	 odos:vo.odo[];

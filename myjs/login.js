@@ -6,3 +6,6 @@ document.getElementById("login").addEventListener("click",()=>{
     var dat=new msg(msgType.login,JSON.stringify(json));
     NetMgr.instance.AJAXsend(dat);
 },false);
+
+
+

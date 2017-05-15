@@ -2,6 +2,7 @@ var msgProcess;
 (function (msgProcess) {
     function onlogin(da) {
         window.location.href = "index.html";
+        dataManager.instance.data = da;
         //TODO　
     }
     msgProcess.onlogin = onlogin;
