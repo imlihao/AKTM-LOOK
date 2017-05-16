@@ -18,6 +18,7 @@ var dataManager = (function () {
         },
         set: function (dat) {
             this.dataMian = dat;
+            updateTableInv(this.dataMian.invs);
         },
         enumerable: true,
         configurable: true
@@ -33,7 +34,7 @@ var dataManager = (function () {
             vovo.sender_name = "发送者";
             vovo.cost = 1;
             vovo.receiver_phone = "1233333";
-            vovo.INV_ID = "1";
+            vovo.INV_ID = "dasdaokmdajn1322jisdf";
             vovo.receiver_addr = "天朝";
             vovo.good_num = 1;
             vovo.inv_status = 1;

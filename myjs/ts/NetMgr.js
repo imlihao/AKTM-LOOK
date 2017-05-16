@@ -39,8 +39,8 @@ var NetMgr = (function () {
         console.log("[WS send]:" + msg.data);
     };
     NetMgr.prototype.AJAXsend = function (msg) {
-        console.log("[WS send]:" + msg.itype);
-        console.log("[WS send]:" + msg.data);
+        console.log("[ajax send]:" + msg.itype);
+        console.log("[ajax send]:" + msg.data);
         $.ajax({
             url: msgType.urlajax,
             type: 'POST',
@@ -48,6 +48,10 @@ var NetMgr = (function () {
             headers: {
                 Accept: "application/json; charset=utf-8",
             },
+            xhrFields: {
+               withCredentials: true
+             },
+             crossDomain: true,
             data: {
                 itype: msg.itype,
                 data: msg.data,
@@ -92,10 +96,11 @@ var msgType = (function () {
     }
     return msgType;
 }());
-msgType.urlajax = 'http://127.0.0.1:8090/AKTM-new-1/htttpajax';
+msgType.urlajax = 'http://localhost:8090/AKTM-new-1/htttpajax';
 msgType.urlws = 'ws://127.0.0.1:8090/AKTM-new-1/websocket';
 msgType.login = "login";
 msgType.logout = "logout";
+msgType.SCupdateAll = "SCupdateAll";
 msgType.alret = "alret";
 msgType.lodOp = "lodOp";
 msgType.cusOp = "cusOp";

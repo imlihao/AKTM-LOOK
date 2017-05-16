@@ -47,8 +47,8 @@ class NetMgr{
        console.log("[WS send]:"+msg.data);    
    }
    public AJAXsend(msg:msg ){
-      console.log("[WS send]:"+msg.itype);    
-      console.log("[WS send]:"+msg.data);    
+      console.log("[ajax send]:"+msg.itype);    
+      console.log("[ajax send]:"+msg.data);  
       $.ajax(
       {
        url:msgType.urlajax,  
@@ -109,12 +109,14 @@ class msg{
  * 消息类型常量，与服务器保持一致
  */
 class msgType {
-  public static urlajax:string='http://127.0.0.1:8090/AKTM-new-1/htttpajax';
+  public static urlajax:string='http://localhost:8090/AKTM-new-1/htttpajax';
   public static urlws:string='ws://127.0.0.1:8090/AKTM-new-1/websocket';
 
   public static login:string="login";
   public static logout:string="logout";
-
+  
+  public static SCupdateAll:string="SCupdateAll";
+ 
   public static alret:string="alret";
   public static lodOp:string="lodOp";
   public static cusOp:string="cusOp";

@@ -1,15 +1,25 @@
+$("window").ready(function(){
+    console.error(dataManager.instance.dataMian);
+    NetMgr.instance.initWS();
+    msg=new msg(msgType.SCupdateAll,"")
+    NetMgr.instance.AJAXsend(msg);
+});
 
-$("document").ready(function (){   
-var dataSet = [
+function updateTableInv(invs){
+  //测试数据
+  var dataSet = [
     ['Trident','Internet Explorer 4.0','Win 95+','4','X'],
     ['Trident','Internet Explorer 5.0','Win 95+','5','C'],
     ['Trident','Internet Explorer 5.5','Win 95+','5.5','A'],
     ['Trident','Internet Explorer 6','Win 98+','6','A'], ];
-    
- var set2=dataManager.instance.invs;
    
- $("#dataTables-invoice").DataTable({
-    data:set2,
+    var dt=$("#dataTables-invoice");
+    if(!dt){
+        console.log("没有找到表");
+    }
+   
+   $("#dataTables-invoice").DataTable({
+    data:invs,
     columns: [
     {
         "title":"单号",
@@ -60,20 +70,14 @@ var dataSet = [
      columnDefs:[{
                 targets: 7,
                 render: function (data, type, row, meta) {
-                    console.log('data'+data);                    
-                    console.log(type);
-                    console.log(row);
-                    console.log(meta);
-
                     return '<a type="button" class="btn btn-success center"  onclick=invoceOp(' + row.INV_ID + ') >详细操作</a>';
                 }
             },
                 { "orderable": false, "targets": 7 },
             ],
-  });
+    });
+}
     
-})
-
 function invoceOp(id){
     console.log(id);
     

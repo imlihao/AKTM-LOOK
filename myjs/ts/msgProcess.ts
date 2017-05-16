@@ -1,18 +1,20 @@
 namespace msgProcess {
-  export function onlogin(da:msgClass.SCupdateAll) {
+  export function onlogin() {
       window.location.href= "index.html";
-      dataManager.instance.data=da;
-      //TODO　
   }
-  
   /**
    * 警告
    */
   export function onalret(dat:msgClass.alret){
      alert(dat.msg);
   }
-  
-
+  /**
+   * 更新所有的消息
+   */
+  export function onSCupdateAll(dat:msgClass.SCupdateAll){
+     dataManager.instance.data=dat;
+     //TODO 更新所有的
+  }
 }
 
 
@@ -113,6 +115,9 @@ namespace vo {
     sender_name: string;
     sender_ID: number;
     sender_phone: string;
+    
+    //操作员id
+    opid:number;
 
     UTCTimeStamp: number;
 
@@ -176,7 +181,7 @@ namespace vo {
     name: string;
 
     autoid: string;
-
+    power_inv:boolean;
     power_odo: boolean;
     power_loaddo: boolean;
     power_user: boolean;

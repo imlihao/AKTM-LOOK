@@ -1,9 +1,7 @@
 var msgProcess;
 (function (msgProcess) {
-    function onlogin(da) {
+    function onlogin() {
         window.location.href = "index.html";
-        dataManager.instance.data = da;
-        //TODO　
     }
     msgProcess.onlogin = onlogin;
     /**
@@ -13,6 +11,14 @@ var msgProcess;
         alert(dat.msg);
     }
     msgProcess.onalret = onalret;
+    /**
+     * 更新所有的消息
+     */
+    function onSCupdateAll(dat) {
+        dataManager.instance.data = dat;
+        //TODO 更新所有的
+    }
+    msgProcess.onSCupdateAll = onSCupdateAll;
 })(msgProcess || (msgProcess = {}));
 var msgClass;
 (function (msgClass) {

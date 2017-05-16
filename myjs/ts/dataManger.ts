@@ -9,8 +9,9 @@ class dataManager{
    }
 
    private dataMian:msgClass.SCupdateAll;
-   public set data(dat:msgClass.SCupdateAll){ 
+   public set data(dat:msgClass.SCupdateAll){
       this.dataMian=dat;
+      updateTableInv(this.dataMian.invs);
    }
    public get data(){
        return this.dataMian;
