@@ -158,3 +158,10 @@ var operator;
     operator[operator["updateAll"] = 3] = "updateAll";
     operator[operator["add"] = 4] = "add";
 })(operator || (operator = {}));
+var roletype;
+(function (roletype) {
+    roletype[roletype["sys"] = 1] = "sys";
+    roletype[roletype["operator_normal"] = 2] = "operator_normal";
+    roletype[roletype["operator_Warehouse"] = 3] = "operator_Warehouse";
+    roletype[roletype["diver"] = 4] = "diver";
+})(roletype || (roletype = {}));

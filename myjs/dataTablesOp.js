@@ -209,6 +209,68 @@ function updatecus(){
 
 
 
+function syspost2String(rtype){
+   switch(rtype){
+     case roletype.operator_normal:
+       return "操作员";
+     case roletype.diver:
+       return "司机";
+     case roletype.operator_Warehouse:
+       return "仓库管理员";
+     case roletype.sys:
+       return "超级管理员";
+
+   }
+}
+
+var rolemain=document.getElementById("rolemain");
+if(rolemain){
+    rolemain.addEventListener("click",showsysuser,true);  
+}else{
+    console.error("角色管理按钮没找到");
+}
+
+function showsysuser(dat){  
+    var dat=null;  
+    if(dat){
+    for(var y in dat){
+        var ys=new vo.sysuer();
+        var h5=[' <div class="col-lg-4">',
+'                    <div class="panel panel-default">',
+'                        <div class="panel-heading">',
+'                            '+syspost2String(ys.roletype),
+'                        </div>',
+'                        <!-- /.panel-heading -->',
+'                        <div class="panel-body">',
+'                            <div class="col-lg-offset-1">',
+'                            <h3>姓名:'+ys.name+'</h3>   ',
+'                            <h3>工号：'+ys.user_id+'</h3>',
+'                            <h3>电话:'+ys.phone+'</h3>',
+'                            <h3>类别：'+syspost2String(ys.roletype)+'</h3>      ',
+'                            <h3>'+(ys.autoid?'车牌号'+ys.autoid:'')+'</h3>',
+'                            <div class="pull-right">',
+'                            <button type="button" class="btn btn-outline btn-success btn-lg ">操作</button>',
+'                            </div>                            ',
+'                            </div>                            ',
+'                        </div>',
+'                        <!-- /.panel-body -->',
+'                    </div>',
+'                    <!-- /.panel -->',
+'                </div>',
+'                <!-- /.col-lg-6 -->',
+'             '].join("");
+        base.append(h5);
+     }
+    }
+   
+    
+}
+
+
+function onswitch2operatorcenter(){
+  
+}
+
 
 
 

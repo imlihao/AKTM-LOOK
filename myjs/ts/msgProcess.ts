@@ -1,6 +1,6 @@
 namespace msgProcess {
   export function onlogin() {
-    window.location.href = "aktm_cus.html";
+    window.location.href = "aktm_index.html";
   }
   /**
    * 警告
@@ -217,4 +217,14 @@ enum operator {
   updateAll = 3,
   add = 4
 }
+
+
+enum roletype {
+   sys=1,
+    operator_normal=2,
+    operator_Warehouse=3,
+    diver=4,
+   
+}
+
 
