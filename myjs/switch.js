@@ -171,7 +171,8 @@ function switch2customer(){
 '                </div>',
 '            '].join("");
     base.append(h5);
-    
+         dataManager.instance.showall();
+
     
 }
  
@@ -186,7 +187,7 @@ function switch2from(){
       base.html("");
       var h5= ['<div class="row">',
 '                <div class="col-lg-12">',
-'                    <h1 class="page-header">Dashboard</h1>',
+'                    <h1 class="page-header">订单中心</h1>',
 '                </div>',
 '                <!-- /.col-lg-12 -->',
 '            </div>',
@@ -292,7 +293,9 @@ function switch2from(){
 '                </div>',
 '                </div>',
 '            </div> '].join("");
-    base.append(h5);      
+    base.append(h5); 
+    
+     dataManager.instance.showall();
 }
 
 //切换到出库单
@@ -332,6 +335,8 @@ function switch2sysuser(type){
 '            '].join(""));
     base.append(' <div class="row" id="sysusercenter">');
     base.append('</div>');  
+    dataManager.instance.showall();
+
 }
 
 //权限控制

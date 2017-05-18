@@ -17,13 +17,21 @@ var dataManager = (function () {
         },
         set: function (dat) {
             this.dataMian = dat;
-            updateTableInv(this.dataMian.invs);
-            updateTableCus(this.dataMian.cus);
+            this.showall();
         },
         enumerable: true,
         configurable: true
     });
+    dataManager.prototype.showall = function () {
+        if (!this.data) {
+            console.error("数据dataMian==nu");
+        }
+        updateTableInv(this.dataMian.invs);
+        updateTableCus(this.dataMian.cus);
+        showsysuser(this.dataMian.sysusers);
+    };
     dataManager.prototype.getCusByid = function (id) {
+        id = Number(id);
         if (this.dataMian && this.dataMian.cus) {
             return this.dataMian.cus.find(function (value) { return value.cus_id == id; });
         }

@@ -10,14 +10,25 @@ class dataManager{
    private dataMian:msgClass.SCupdateAll;
    public set data(dat:msgClass.SCupdateAll){
       this.dataMian=dat;
-      updateTableInv(this.dataMian.invs);
-      updateTableCus(this.dataMian.cus);
+      this.showall();
+  
    }
    public get data(){
        return this.dataMian;
    }
   
-   public getCusByid(id:number):vo.customer{        
+   public showall(){
+     if(!this.data){
+      console.error("数据dataMian==nu");
+    }
+    updateTableInv(this.dataMian.invs);
+    updateTableCus(this.dataMian.cus);
+    showsysuser(this.dataMian.sysusers);
+
+   }
+
+   public getCusByid(id:number):vo.customer{  
+        id=Number(id);      
         if(this.dataMian && this.dataMian.cus) {
             return this.dataMian.cus.find((value:vo.customer)=>{return value.cus_id==id});
         };
@@ -52,3 +63,4 @@ class dataManager{
        return this.dataMian.invs;
    }
 } 
+

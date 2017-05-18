@@ -41,7 +41,7 @@ class NetMgr{
         msgProcess["on"+data.itype](data);
    }
    public WSsend(msg:msg ){
-      if(this.ws&&this.ws.readyState==this.ws.CONNECTING){  
+      if(this.ws&&this.ws.readyState!=this.ws.CLOSING&&this.ws.readyState!=this.ws.CLOSED){  
         console.log("[ws send]:"+JSON.stringify(msg));   
         this.ws.send(JSON.stringify(msg));   
       }else{

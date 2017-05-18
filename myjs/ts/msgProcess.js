@@ -1,7 +1,7 @@
 var msgProcess;
 (function (msgProcess) {
     function onlogin() {
-        window.location.href = "aktm_cus.html";
+        window.location.href = "aktm_index.html";
     }
     msgProcess.onlogin = onlogin;
     /**

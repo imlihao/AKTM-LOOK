@@ -368,10 +368,10 @@
             
             
             <div class="row">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm"  onclick="customeradd()">新增订单</button>
 
-                 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-                 <div class="modal-dialog modal-lg" role="document">
+                 <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                 <div class="modal-dialog modal-dialog" role="document">
                  <div class="modal-content">
                    <!-- 自定义新增用户 -->
           
@@ -384,28 +384,55 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-12">
                                   <form role="form">
                                       <div class="form-group">
-                                            <label>客户姓名</label>
-                                            <input class="form-control" placeholder="name">
+                                            <label>货物名称</label>
+                                            <input class="form-control" placeholder="good_name" id="good_name">
                                       </div>
                                       <div class="form-group">
-                                            <label>公司</label>
-                                            <input class="form-control" placeholder="company">
+                                            <label>货物数量</label>
+                                            <input class="form-control" placeholder="good_num" >
                                       </div>
-
+                                      
                                       <div class="form-group">
-                                            <label>电话</label>
-                                            <input class="form-control" placeholder="phone">
+                                            <label>货物标识符</label>
+                                            <input class="form-control" placeholder="good_identifier">
                                       </div>
-                                      <div class="form-group">
-                                            <label>电话</label>
-                                            <input class="form-control" placeholder="phone">
-                                      </div>
+                                      
                                         <div class="form-group">
-                                            <label>地址</label>
-                                            <textarea class="form-control" rows="3"></textarea>
+                                            <label>客户</label>
+                                            <select class="form-control" id="invselect">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                        
+                                      <div id="invsenderinfo">
+                                    
+                                      </div>
+                                      
+                                      <div class="form-group">
+                                            <label>接收人姓名</label>
+                                            <input class="form-control" placeholder="receiver_name" id="receiver_name">
+                                      </div>
+                                      
+                                      <div class="form-group">
+                                            <label>接收人电话</label>
+                                            <input class="form-control" placeholder="receiver_phone" id="receiver_phone">
+                                      </div>
+                                      
+                                      <div class="form-group">
+                                            <label>客服人员</label>
+                                            <input class="form-control"  id="opid" disabled>
+                                      </div>
+                                      
+                                      <div class="form-group">
+                                            <label>送往</label>
+                                            <textarea class="form-control" rows="3" id="receiver_addr"></textarea>
                                       </div>
                                       
                                       <div class="pull-right">

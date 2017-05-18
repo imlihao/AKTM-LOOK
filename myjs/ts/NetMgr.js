@@ -35,7 +35,7 @@ var NetMgr = (function () {
     };
     NetMgr.prototype.WSsend = function (msg) {
         var _this = this;
-        if (this.ws && this.ws.readyState == this.ws.CONNECTING) {
+        if (this.ws && this.ws.readyState != this.ws.CLOSING && this.ws.readyState != this.ws.CLOSED) {
             console.log("[ws send]:" + JSON.stringify(msg));
             this.ws.send(JSON.stringify(msg));
         }

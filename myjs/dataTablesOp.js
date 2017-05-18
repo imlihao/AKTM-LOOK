@@ -159,13 +159,48 @@ function customerOp(id){
         console.error("数据里没找到customer:id="+id);
         return;
     }
-    $("#cusaddrop").val(cus.sender_name);
-    $("#cusnameop").val(cus.addr);
+    $("#cusaddrop").val(cus.addr);
+    $("#cusnameop").val(cus.sender_name);
     $("#cuscompanyop").val(cus.company);
     $("#cusphoneop").val(cus.sender_phone);
 
 };
 
+function customeradd(){
+    $("#invsenderinfo").html("");
+    
+    var se=new Array();
+    var cus=dataManager.instance.data.cus;
+    for(i=0;i<cus.length;i++){
+           se.push(' <option value="'+cus[i].cus_id+'">'+cus[i].sender_name+'</option>')    
+    }
+    $("#invselect").html(se);
+    $("#invselect").change(function (){
+       var secus=dataManager.instance.getCusByid($("#invselect").val());
+       
+       var dat=['  <div class="form-group">',
+'                                            <label>客户id</label>',
+'                                            <input class="form-control"  value="'+secus.cus_id+'" id="cus_id" disabled>',
+'                                      </div>',
+'                                      ',
+'                                      <div class="form-group">',
+'                                            <label>客户电话</label>',
+'                                            <input class="form-control"  value="'+secus.sender_phone+'" disabled>',
+'         </div>'].join("");
+        $("#invsenderinfo").html(dat);
+        
+        
+    });
+    
+    
+    
+}
+
+
+
+/**
+ *客户操作
+ * */
 function addcus(){
     var cus=new vo.customer();
     cus.sender_name=$("#cusname").val();
@@ -194,7 +229,7 @@ function delcus(){
 }
 
 function updatecus(){
-    var cus=new vo.customer();
+    var cus=dataManager.instance.getCusByid($("#cusidop").val());
     cus.sender_name=$("#cusnameop").val();
     cus.company=$("#cuscompanyop").val();
     cus.sender_phone=$("#cusphoneop").val();
@@ -231,10 +266,13 @@ if(rolemain){
 }
 
 function showsysuser(dat){  
-    var dat=null;  
+    var base=$("#sysusercenter");
+    if(!base.length){
+        return;
+    }
     if(dat){
-    for(var y in dat){
-        var ys=new vo.sysuer();
+    for(i=0;i<dat.length;i++){
+        var ys=dat[i];
         var h5=[' <div class="col-lg-4">',
 '                    <div class="panel panel-default">',
 '                        <div class="panel-heading">',
@@ -247,7 +285,7 @@ function showsysuser(dat){
 '                            <h3>工号：'+ys.user_id+'</h3>',
 '                            <h3>电话:'+ys.phone+'</h3>',
 '                            <h3>类别：'+syspost2String(ys.roletype)+'</h3>      ',
-'                            <h3>'+(ys.autoid?'车牌号'+ys.autoid:'')+'</h3>',
+'                            <h3>'+(ys.autoid?'车牌号:'+ys.autoid:'&nbsp')+'</h3>',
 '                            <div class="pull-right">',
 '                            <button type="button" class="btn btn-outline btn-success btn-lg ">操作</button>',
 '                            </div>                            ',
