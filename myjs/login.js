@@ -6,7 +6,7 @@ document.getElementById("login").addEventListener("click",()=>{
     var json={name,psd};
     var dat=new msg(msgType.login,JSON.stringify(json));
     NetMgr.instance.WSsend(dat);
-    NetMgr.instance.AJAXsend(dat);
+   // NetMgr.instance.AJAXsend(dat);
 },false);
 
 

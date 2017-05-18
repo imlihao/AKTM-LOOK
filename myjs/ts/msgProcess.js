@@ -1,7 +1,7 @@
 var msgProcess;
 (function (msgProcess) {
     function onlogin() {
-        window.location.href = "index.html";
+        window.location.href = "aktm_cus.html";
     }
     msgProcess.onlogin = onlogin;
     /**
@@ -16,9 +16,15 @@ var msgProcess;
      */
     function onSCupdateAll(dat) {
         dataManager.instance.data = dat;
-        //TODO 更新所有的
     }
     msgProcess.onSCupdateAll = onSCupdateAll;
+    /**
+    * 登出
+    */
+    function onlogout(dat) {
+        window.location.href = "login.html";
+    }
+    msgProcess.onlogout = onlogout;
 })(msgProcess || (msgProcess = {}));
 var msgClass;
 (function (msgClass) {
@@ -145,3 +151,10 @@ var vo;
     }());
     vo.transport = transport;
 })(vo || (vo = {}));
+var operator;
+(function (operator) {
+    operator[operator["del"] = 1] = "del";
+    operator[operator["update"] = 2] = "update";
+    operator[operator["updateAll"] = 3] = "updateAll";
+    operator[operator["add"] = 4] = "add";
+})(operator || (operator = {}));

@@ -3,7 +3,6 @@ class dataManager{
    public static get instance(): dataManager{
       if(!dataManager._self){
         dataManager._self=new dataManager();
-        dataManager._self.test();
       }
       return dataManager._self;
    }
@@ -12,11 +11,19 @@ class dataManager{
    public set data(dat:msgClass.SCupdateAll){
       this.dataMian=dat;
       updateTableInv(this.dataMian.invs);
+      updateTableCus(this.dataMian.cus);
    }
    public get data(){
        return this.dataMian;
    }
   
+   public getCusByid(id:number):vo.customer{        
+        if(this.dataMian && this.dataMian.cus) {
+            return this.dataMian.cus.find((value:vo.customer)=>{return value.cus_id==id});
+        };
+        return null;
+
+   }
 
    public test(){
        this.dataMian=new msgClass.SCupdateAll();

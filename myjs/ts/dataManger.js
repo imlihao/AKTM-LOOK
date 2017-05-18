@@ -5,7 +5,6 @@ var dataManager = (function () {
         get: function () {
             if (!dataManager._self) {
                 dataManager._self = new dataManager();
-                dataManager._self.test();
             }
             return dataManager._self;
         },
@@ -19,10 +18,18 @@ var dataManager = (function () {
         set: function (dat) {
             this.dataMian = dat;
             updateTableInv(this.dataMian.invs);
+            updateTableCus(this.dataMian.cus);
         },
         enumerable: true,
         configurable: true
     });
+    dataManager.prototype.getCusByid = function (id) {
+        if (this.dataMian && this.dataMian.cus) {
+            return this.dataMian.cus.find(function (value) { return value.cus_id == id; });
+        }
+        ;
+        return null;
+    };
     dataManager.prototype.test = function () {
         this.dataMian = new msgClass.SCupdateAll();
         this.dataMian.invs = new Array();

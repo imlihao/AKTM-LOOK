@@ -1,85 +1,91 @@
 namespace msgProcess {
   export function onlogin() {
-      window.location.href= "index.html";
+    window.location.href = "aktm_cus.html";
   }
   /**
    * 警告
    */
-  export function onalret(dat:msgClass.alret){
-     alert(dat.msg);
+  export function onalret(dat: msgClass.alret) {
+    alert(dat.msg);
   }
   /**
    * 更新所有的消息
    */
-  export function onSCupdateAll(dat:msgClass.SCupdateAll){
-     dataManager.instance.data=dat;
-     //TODO 更新所有的
+  export function onSCupdateAll(dat: msgClass.SCupdateAll) {
+    dataManager.instance.data = dat;
+  }
+
+   /**
+   * 登出
+   */
+  export function onlogout(dat) {
+      window.location.href = "login.html";
   }
 }
 
 
 
-namespace msgClass{
-  export class CSloginMsg{
-	  name:string;
-	  psd:string;
+namespace msgClass {
+  export class CSloginMsg {
+    name: string;
+    psd: string;
   }
-  
+
   /**
  * 登陆回复的消息，根据权限分配信息；
  */
- export class SCupdateAll{
-   itype=msgType.login;
-   sysu:vo.sysuer;
-	 invs:vo.invoice[];
-	 sysusers:vo.sysuer[];
-	 odos:vo.odo[];
-	 loaddos:vo.loaddo[];
-	  tps:vo.transport[];
-	  cus:vo.customer[];
-}
+  export class SCupdateAll {
+    itype = msgType.login;
+    sysu: vo.sysuer;
+    invs: vo.invoice[];
+    sysusers: vo.sysuer[];
+    odos: vo.odo[];
+    loaddos: vo.loaddo[];
+    tps: vo.transport[];
+    cus: vo.customer[];
+  }
 
-export class invOp{
-	 itype=msgType.invOp;
-	 op:number;
-	 invs:vo.invoice[];
-   
-}
+  export class invOp {
+    itype = msgType.invOp;
+    op: number;
+    invs: vo.invoice[];
 
-export class sysOp{
-	 itype=msgType.sysOp;
- 	 op:number;
-	 sysusers:vo.sysuer[];
-}
+  }
 
-export class odoOp{
-	 itype=msgType.odoOp;
-	 op:number;
-	 odos:vo.odo[];
-}
+  export class sysOp {
+    itype = msgType.sysOp;
+    op: number;
+    sysusers: vo.sysuer[];
+  }
 
-export class tpsOp{
-	 itype=msgType.tpsOp;
-   op:number;
-	 tps:vo.transport[];
-}
+  export class odoOp {
+    itype = msgType.odoOp;
+    op: number;
+    odos: vo.odo[];
+  }
 
-export class cusOp{
-	 itype=msgType.cusOp;
-	op:number;
-	 cus:vo.customer[];
-}
+  export class tpsOp {
+    itype = msgType.tpsOp;
+    op: number;
+    tps: vo.transport[];
+  }
 
-export class lodOp{
-	 itype=msgType.lodOp;
-	 op:number;
-   loaddos:vo.loaddo[];
-}
+  export class cusOp {
+    itype = msgType.cusOp;
+    op: number;
+    cus: vo.customer[];
+  }
 
-export class alret{
-   itype=msgType.alret;
-	 msg:string; 
-}
+  export class lodOp {
+    itype = msgType.lodOp;
+    op: number;
+    loaddos: vo.loaddo[];
+  }
+
+  export class alret {
+    itype = msgType.alret;
+    msg: string;
+  }
 }
 
 
@@ -90,10 +96,9 @@ namespace vo {
    */
   export class customer {
     cus_id: number;
-    sender_ID: number;
     sender_name: string;
-    sender_phone: string;
     company: string;
+    sender_phone: string;
     addr: string;
     // 标志位
     co_status: number;
@@ -115,9 +120,9 @@ namespace vo {
     sender_name: string;
     sender_ID: number;
     sender_phone: string;
-    
+
     //操作员id
-    opid:number;
+    opid: number;
 
     UTCTimeStamp: number;
 
@@ -181,7 +186,7 @@ namespace vo {
     name: string;
 
     autoid: string;
-    power_inv:boolean;
+    power_inv: boolean;
     power_odo: boolean;
     power_loaddo: boolean;
     power_user: boolean;
@@ -204,5 +209,12 @@ namespace vo {
     co_status: number;
 
   }
+}
+
+enum operator {
+  del = 1,
+  update = 2,
+  updateAll = 3,
+  add = 4
 }
 

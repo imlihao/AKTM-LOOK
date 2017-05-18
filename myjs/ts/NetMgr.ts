@@ -19,17 +19,16 @@ class NetMgr{
 
    public initWS(){
      this.ws=new WebSocket(msgType.urlws);
-     this.ws.onopen=this.onopen;
      this.ws.onmessage=this.onmessage;
    }
-
+   private func=new Array<Function>(); 
    public onopen(){
       console.error("WS 初始化成功");
    }
 
    public  onmessage (ev: MessageEvent){
        console.log("[WS REC]:"+ev.data);
-       let data:msg=ev.data;
+       NetMgr.analyJson(ev.data);
       
    }
    
@@ -37,18 +36,30 @@ class NetMgr{
     * 解析消息，找到相应办法处理
     */
    public　static analyJson(json:string){
+
         let data=JSON.parse(json);
         msgProcess["on"+data.itype](data);
    }
-
    public WSsend(msg:msg ){
-       this.ws.send(msg);
-       console.log("[WS send]:"+msg.itype);    
-       console.log("[WS send]:"+msg.data);    
+      if(this.ws&&this.ws.readyState==this.ws.CONNECTING){  
+        console.log("[ws send]:"+JSON.stringify(msg));   
+        this.ws.send(JSON.stringify(msg));   
+      }else{
+        this.initWS();
+        let func=()=>{
+          console.log("[ws send(lag)]:"+JSON.stringify(msg));             
+          this.ws.send(JSON.stringify(msg));
+          }
+        this.ws.onopen=()=>{
+           if(func){
+             func();
+             func=null;
+           }
+        }
+      }
    }
    public AJAXsend(msg:msg ){
-      console.log("[ajax send]:"+msg.itype);    
-      console.log("[ajax send]:"+msg.data);  
+      console.log("[ajax send]:"+msg.itype+msg.data);     
       $.ajax(
       {
        url:msgType.urlajax,  

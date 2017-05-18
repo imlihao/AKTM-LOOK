@@ -3,6 +3,7 @@
  */
 var NetMgr = (function () {
     function NetMgr() {
+        this.func = new Array();
     }
     Object.defineProperty(NetMgr, "instance", {
         get: function () {
@@ -16,7 +17,6 @@ var NetMgr = (function () {
     });
     NetMgr.prototype.initWS = function () {
         this.ws = new WebSocket(msgType.urlws);
-        this.ws.onopen = this.onopen;
         this.ws.onmessage = this.onmessage;
     };
     NetMgr.prototype.onopen = function () {
@@ -24,7 +24,7 @@ var NetMgr = (function () {
     };
     NetMgr.prototype.onmessage = function (ev) {
         console.log("[WS REC]:" + ev.data);
-        var data = ev.data;
+        NetMgr.analyJson(ev.data);
     };
     /**
      * 解析消息，找到相应办法处理
@@ -34,13 +34,27 @@ var NetMgr = (function () {
         msgProcess["on" + data.itype](data);
     };
     NetMgr.prototype.WSsend = function (msg) {
-        this.ws.send(msg);
-        console.log("[WS send]:" + msg.itype);
-        console.log("[WS send]:" + msg.data);
+        var _this = this;
+        if (this.ws && this.ws.readyState == this.ws.CONNECTING) {
+            console.log("[ws send]:" + JSON.stringify(msg));
+            this.ws.send(JSON.stringify(msg));
+        }
+        else {
+            this.initWS();
+            var func_1 = function () {
+                console.log("[ws send(lag)]:" + JSON.stringify(msg));
+                _this.ws.send(JSON.stringify(msg));
+            };
+            this.ws.onopen = function () {
+                if (func_1) {
+                    func_1();
+                    func_1 = null;
+                }
+            };
+        }
     };
     NetMgr.prototype.AJAXsend = function (msg) {
-        console.log("[ajax send]:" + msg.itype);
-        console.log("[ajax send]:" + msg.data);
+        console.log("[ajax send]:" + msg.itype + msg.data);
         $.ajax({
             url: msgType.urlajax,
             type: 'POST',
@@ -48,10 +62,6 @@ var NetMgr = (function () {
             headers: {
                 Accept: "application/json; charset=utf-8",
             },
-            xhrFields: {
-               withCredentials: true
-             },
-             crossDomain: true,
             data: {
                 itype: msg.itype,
                 data: msg.data,

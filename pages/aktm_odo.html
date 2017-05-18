@@ -37,7 +37,6 @@
 </head>
 
 <body>
-
     <div id="wrapper">
 
         <!-- Navigation -->
@@ -278,10 +277,10 @@
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> 发货合同</a>
+                            <a href="aktm_invs.html"><i class="fa fa-dashboard fa-fw"></i> 发货合同</a>
                         </li>
                         <li>
-                            <a href="tables.html"><i class="fa fa-table fa-fw"></i>仓储管理</a>
+                            <a href="aktm_odo.html"><i class="fa fa-table fa-fw"></i>仓储管理</a>
                             <ul class="nav nav-second-level">
                             <li>
                                 <a href="">入库单</a>
@@ -292,11 +291,11 @@
                             </ul>
                         </li>
                         <li>
-                            <a><i class="fa fa-edit fa-fw" onclick="switch2from()"></i>装配信息</a>
+                            <a href="aktm_cus.html"><i class="fa fa-edit fa-fw" ></i>客户信息</a>
                         </li>
 
                         <li>
-                            <a href="#"><i class="fa fa-sitemap fa-fw"></i>配送管理<span class="fa arrow"></span></a>
+                            <a href="aktm_tps_dp.html"><i class="fa fa-sitemap fa-fw"></i>配送管理</a>
                             
                             <!-- /.nav-second-level -->
                         </li>
@@ -366,6 +365,75 @@
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
+            
+            
+            <div class="row">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button>
+
+                 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                 <div class="modal-dialog modal-lg" role="document">
+                 <div class="modal-content">
+                   <!-- 自定义新增用户 -->
+          
+          
+              <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            新增客户
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                  <form role="form">
+                                      <div class="form-group">
+                                            <label>客户姓名</label>
+                                            <input class="form-control" placeholder="name">
+                                      </div>
+                                      <div class="form-group">
+                                            <label>公司</label>
+                                            <input class="form-control" placeholder="company">
+                                      </div>
+
+                                      <div class="form-group">
+                                            <label>电话</label>
+                                            <input class="form-control" placeholder="phone">
+                                      </div>
+                                      <div class="form-group">
+                                            <label>电话</label>
+                                            <input class="form-control" placeholder="phone">
+                                      </div>
+                                        <div class="form-group">
+                                            <label>地址</label>
+                                            <textarea class="form-control" rows="3"></textarea>
+                                      </div>
+                                      
+                                      <div class="pull-right">
+                                      <button type="submit" class="btn btn-default">Submit Button</button>
+                                      </div>
+                                  </form>
+                                </div>
+                                <!-- /.col-lg-6 (nested) -->
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+               </div>
+                <!-- /.row -->
+            
+            
+            
+             <!-- 自定义新增用户end -->               
+                </div>
+                </div>
+                </div>
+            </div> 
+            
+            
         </div>
         <!-- /#page-wrapper -->
 
