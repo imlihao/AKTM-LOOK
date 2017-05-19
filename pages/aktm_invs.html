@@ -368,7 +368,7 @@
             
             
             <div class="row">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm"  onclick="customeradd()">新增订单</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm"  onclick="invsaddpre()">新增订单</button>
 
                  <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
                  <div class="modal-dialog modal-dialog" role="document">
@@ -388,16 +388,16 @@
                                   <form role="form">
                                       <div class="form-group">
                                             <label>货物名称</label>
-                                            <input class="form-control" placeholder="good_name" id="good_name">
+                                            <input type="text" class="form-control" placeholder="good_name" id="good_name">
                                       </div>
                                       <div class="form-group">
                                             <label>货物数量</label>
-                                            <input class="form-control" placeholder="good_num" >
+                                            <input  type="number" class="form-control" placeholder="good_num" >
                                       </div>
                                       
                                       <div class="form-group">
                                             <label>货物标识符</label>
-                                            <input class="form-control" placeholder="good_identifier">
+                                            <input type="text" class="form-control" placeholder="good_identifier">
                                       </div>
                                       
                                         <div class="form-group">
@@ -410,19 +410,43 @@
                                                 <option>5</option>
                                             </select>
                                         </div>
+                                      
                                         
                                       <div id="invsenderinfo">
                                     
                                       </div>
                                       
+                                     <div class="form-group col-lg-6 ">                                          
+                                            <label>仓库操作员</label>
+                                            <select class="form-control" id="invselectwop">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                         
+                                      </div>
+                                       <div class="form-group col-lg-6">
+                                    
+                                            <label>司机</label>
+                                            <select class="form-control" id="invselectdriver">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                  
+                                      </div>
                                       <div class="form-group">
                                             <label>接收人姓名</label>
-                                            <input class="form-control" placeholder="receiver_name" id="receiver_name">
+                                            <input type="text"  class="form-control" placeholder="receiver_name" id="receiver_name">
                                       </div>
                                       
                                       <div class="form-group">
                                             <label>接收人电话</label>
-                                            <input class="form-control" placeholder="receiver_phone" id="receiver_phone">
+                                            <input type="tel" class="form-control" placeholder="receiver_phone" id="receiver_phone">
                                       </div>
                                       
                                       <div class="form-group">
@@ -436,7 +460,9 @@
                                       </div>
                                       
                                       <div class="pull-right">
-                                      <button type="submit" class="btn btn-default">Submit Button</button>
+                                      <button  type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                      <button  type="reset" class="btn btn-default">重置</button>
+                                      <button  type="button" class="btn btn-default" id="inv_submit" onclick="invAdd()">提交</button>
                                       </div>
                                   </form>
                                 </div>

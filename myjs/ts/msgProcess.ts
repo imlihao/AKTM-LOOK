@@ -15,11 +15,11 @@ namespace msgProcess {
     dataManager.instance.data = dat;
   }
 
-   /**
-   * 登出
-   */
+  /**
+  * 登出
+  */
   export function onlogout(dat) {
-      window.location.href = "login.html";
+    window.location.href = "login.html";
   }
 }
 
@@ -86,6 +86,16 @@ namespace msgClass {
     itype = msgType.alret;
     msg: string;
   }
+
+ export class invcreate{
+	 itype=msgType.invcreate;
+	 inv:vo.invoice;
+   driverid:number; 
+	 wopid:number;
+	 autoid:string;
+	 drivername:string;
+  }
+
 }
 
 
@@ -209,6 +219,8 @@ namespace vo {
     co_status: number;
 
   }
+
+ 
 }
 
 enum operator {
@@ -220,11 +232,24 @@ enum operator {
 
 
 enum roletype {
-   sys=1,
-    operator_normal=2,
-    operator_Warehouse=3,
-    diver=4,
-   
+  sys = 1,
+  operator_normal = 2,
+  operator_Warehouse = 3,
+  diver = 4,
+
+}
+
+enum inv_status {
+  chuku = 1,
+  zhuangche = 2,
+  peisong = 3,
+  finish = 4
+}
+
+enum order_status {
+  NOT_START = 1,
+  ONGOING = 2,   
+  FINISH = 3
 }
 
 

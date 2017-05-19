@@ -93,6 +93,13 @@ var msgClass;
         return alret;
     }());
     msgClass.alret = alret;
+    var invcreate = (function () {
+        function invcreate() {
+            this.itype = msgType.invcreate;
+        }
+        return invcreate;
+    }());
+    msgClass.invcreate = invcreate;
 })(msgClass || (msgClass = {}));
 var vo;
 (function (vo) {
@@ -165,3 +172,16 @@ var roletype;
     roletype[roletype["operator_Warehouse"] = 3] = "operator_Warehouse";
     roletype[roletype["diver"] = 4] = "diver";
 })(roletype || (roletype = {}));
+var inv_status;
+(function (inv_status) {
+    inv_status[inv_status["chuku"] = 1] = "chuku";
+    inv_status[inv_status["zhuangche"] = 2] = "zhuangche";
+    inv_status[inv_status["peisong"] = 3] = "peisong";
+    inv_status[inv_status["finish"] = 4] = "finish";
+})(inv_status || (inv_status = {}));
+var order_status;
+(function (order_status) {
+    order_status[order_status["NOT_START"] = 1] = "NOT_START";
+    order_status[order_status["ONGOING"] = 2] = "ONGOING";
+    order_status[order_status["FINISH"] = 3] = "FINISH";
+})(order_status || (order_status = {}));

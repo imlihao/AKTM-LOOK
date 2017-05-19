@@ -135,4 +135,6 @@ class msgType {
   public static odoOp:string="odoOp";
   public static sysOp:string="sysOp";
   public static invOp:string="invOp";
+
+  public static invcreate:string="invcreate";
 }

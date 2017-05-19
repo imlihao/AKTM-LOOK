@@ -166,11 +166,14 @@ function customerOp(id){
 
 };
 
-function customeradd(){
+function invsaddpre(){
     $("#invsenderinfo").html("");
     
     var se=new Array();
     var cus=dataManager.instance.data.cus;
+    //TODO 是否可以增加订单
+
+    se.push(' <option></option>')  
     for(i=0;i<cus.length;i++){
            se.push(' <option value="'+cus[i].cus_id+'">'+cus[i].sender_name+'</option>')    
     }
@@ -187,15 +190,70 @@ function customeradd(){
 '                                            <label>客户电话</label>',
 '                                            <input class="form-control"  value="'+secus.sender_phone+'" disabled>',
 '         </div>'].join("");
-        $("#invsenderinfo").html(dat);
-        
-        
+        $("#invsenderinfo").html(dat);    
     });
     
+
+
+    var ds=dataManager.instance.getSysByType(roletype.diver);
+    var dsse=new Array();
+    dsse.push(' <option></option>'); 
+     for(i=0;i<ds.length;i++){
+           dsse.push(' <option value="'+ds[i].user_id+'">'+ds[i].name+'</option>')    
+    }
+    $("#invselectdriver").html(dsse);
+
+
+    var wops=dataManager.instance.getSysByType(roletype.operator_Warehouse);
+    var wopse=new Array();
+    wopse.push(' <option></option>'); 
+     for(i=0;i<wops.length;i++){
+           wopse.push(' <option value="'+wops[i].user_id+'">'+wops[i].name+'</option>')    
+    }
+    $("#invselectwop").html(wopse);
     
-    
+
+    $("#opid").val(dataManager.instance.data.sysu.name);
 }
 
+
+function invAdd(){
+    var inv=new vo.invoice();
+    inv.good_name=$("#good_name").val();
+    inv.good_num=$("#good_num").val();
+    inv.good_num=$("#good_identifier").val();
+    var cusid=$("#invselect").val();
+    var cus=dataManager.instance.getCusByid(cusid);
+
+    inv.sender_ID=cus.cus_id;
+    inv.sender_name=cus.sender_phone;
+    inv.sender_phone=cus.sender_phone
+    inv.receiver_name=$("#receiver_name").val();
+    inv.receiver_phone=$("#receiver_phone").val();
+    inv.receiver_addr=$("#receiver_addr").val();
+    
+    inv.opid=dataManager.instance.data.sysu.user_id;
+    
+    
+    var wopid=$("#invselectwop").val(); 
+    var driverid=$("#invselectdriver").val();
+    var wop=dataManager.instance.getSysByid(wopid);
+    var driver=dataManager.instance.getSysByid(driverid);
+
+    
+
+    
+    //req
+    var reqmsg=new msgClass.invcreate();
+    reqmsg.inv=inv;
+    reqmsg.autoid=driver.autoid;
+    reqmsg.driverid=driver.user_id;
+    reqmsg.wopid=wopid;
+    reqmsg.drivername=driver.name;
+    cs=new msg(msgType.invcreate,JSON.stringify(reqmsg));
+    NetMgr.instance.WSsend(cs);   
+      
+}
 
 
 /**
@@ -265,6 +323,8 @@ if(rolemain){
     console.error("角色管理按钮没找到");
 }
 
+
+
 function showsysuser(dat){  
     var base=$("#sysusercenter");
     if(!base.length){
@@ -304,10 +364,6 @@ function showsysuser(dat){
     
 }
 
-
-function onswitch2operatorcenter(){
-  
-}
 
 
 

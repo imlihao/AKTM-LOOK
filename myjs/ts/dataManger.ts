@@ -36,6 +36,29 @@ class dataManager{
 
    }
 
+   public getSysByid(id:number):vo.sysuer{  
+        id=Number(id);      
+        if(this.dataMian && this.dataMian.sysusers) {
+            return this.dataMian.sysusers.find((value:vo.sysuer)=>{return value.user_id==id});
+        };
+        return null;
+   }
+
+    public getSysByType(type:roletype):vo.sysuer[]{  
+        var redata=new Array<vo.sysuer>();
+
+        if(this.dataMian && this.dataMian.sysusers) {
+            for(let i=0;i<this.dataMian.sysusers.length;i++){
+                if(this.dataMian.sysusers[i].roletype==type){
+                    redata.push(this.dataMian.sysusers[i]);
+                }
+
+            }
+        };
+        return redata;
+   }
+
+
    public test(){
        this.dataMian=new msgClass.SCupdateAll();
        this.dataMian.invs=new Array<vo.invoice>();

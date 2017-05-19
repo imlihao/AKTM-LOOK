@@ -38,6 +38,26 @@ var dataManager = (function () {
         ;
         return null;
     };
+    dataManager.prototype.getSysByid = function (id) {
+        id = Number(id);
+        if (this.dataMian && this.dataMian.sysusers) {
+            return this.dataMian.sysusers.find(function (value) { return value.user_id == id; });
+        }
+        ;
+        return null;
+    };
+    dataManager.prototype.getSysByType = function (type) {
+        var redata = new Array();
+        if (this.dataMian && this.dataMian.sysusers) {
+            for (var i = 0; i < this.dataMian.sysusers.length; i++) {
+                if (this.dataMian.sysusers[i].roletype == type) {
+                    redata.push(this.dataMian.sysusers[i]);
+                }
+            }
+        }
+        ;
+        return redata;
+    };
     dataManager.prototype.test = function () {
         this.dataMian = new msgClass.SCupdateAll();
         this.dataMian.invs = new Array();
