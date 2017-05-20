@@ -136,5 +136,7 @@ class msgType {
   public static sysOp:string="sysOp";
   public static invOp:string="invOp";
 
+  public static markitsolve:string="markitsolve";
+
   public static invcreate:string="invcreate";
 }

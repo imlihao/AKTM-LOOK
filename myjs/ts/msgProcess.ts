@@ -87,14 +87,20 @@ namespace msgClass {
     msg: string;
   }
 
- export class invcreate{
-	 itype=msgType.invcreate;
-	 inv:vo.invoice;
-   driverid:number; 
-	 wopid:number;
-	 autoid:string;
-	 drivername:string;
+  export class invcreate {
+    itype = msgType.invcreate;
+    inv: vo.invoice;
+    driverid: number;
+    wopid: number;
+    autoid: string;
+    drivername: string;
   }
+  export class markitsolve{
+	 pk:string;
+ 	type:number;
+	 itype=msgType.markitsolve;
+  }
+
 
 }
 
@@ -140,12 +146,33 @@ namespace vo {
     receiver_name: string;
     receiver_phone: string;
     receiver_addr: string;
-
+                
     //花费
     cost: number;
 
     co_status: number;
     inv_status: number;
+
+    
+    //仅客户端显示用
+    timeString ;
+    inv_status_str;
+  }
+
+
+  export function inv_stu2Sstring(inv_st: inv_status) {
+    switch (inv_st) {
+      case inv_status.chuku:
+        return "1-出库中"
+      case inv_status.zhuangche:
+        return "2-装车中"
+      case inv_status.peisong:
+        return "3-配送中"
+      case inv_status.finish:
+        return "4-完成"
+    }
+
+    return "1-出库中";
   }
 
   /**
@@ -154,12 +181,18 @@ namespace vo {
   export class loaddo {
     loaddo_id: string;
     diver_id: number;
-
     autoid: string;
     UTCTimeStamp: number;
 
     loaddo_status: number;
     co_status: number;
+
+    //显示用附加信息
+    loaddo_status_syr: string;
+    UTCTimeStamp_str: string;
+    op_name:string;
+    good_num:number;
+    good_name:string;
   }
 
 
@@ -178,9 +211,15 @@ namespace vo {
     //操作员
     operator_id: string;
     UTCtimeStamp: number;
-
+    UTCtimeStamp_str: string;
+    
     odo_status: number;
-    co_status: number
+    co_status: number;
+    co_status_str:string;
+
+
+    good_num:number;
+    good_name:string;
   }
 
   /**
@@ -218,9 +257,22 @@ namespace vo {
     transport_status: number;
     co_status: number;
 
+  //显示用附加信息
+    transport_status_str: string;
+    UTCTimeStamp_str: string;
+    good_num:number;
+    good_name:string;
+
+       //接受者信息 来自inv
+    receiver_name: string;
+    receiver_phone: string;
+    receiver_addr: string;
+                
+    //花费f inv
+    cost: number;
   }
 
- 
+
 }
 
 enum operator {
@@ -248,7 +300,7 @@ enum inv_status {
 
 enum order_status {
   NOT_START = 1,
-  ONGOING = 2,   
+  ONGOING = 2,
   FINISH = 3
 }
 

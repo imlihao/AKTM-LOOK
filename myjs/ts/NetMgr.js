@@ -118,4 +118,5 @@ msgType.tpsOp = "tpsOp";
 msgType.odoOp = "odoOp";
 msgType.sysOp = "sysOp";
 msgType.invOp = "invOp";
+msgType.markitsolve = "markitsolve";
 msgType.invcreate = "invcreate";

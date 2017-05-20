@@ -1,162 +1,183 @@
-$("window").ready(function(){
-    csmsg=new msg(msgType.SCupdateAll,"")
+$("window").ready(function () {
+    csmsg = new msg(msgType.SCupdateAll, "")
     NetMgr.instance.WSsend(csmsg);
 });
 
 /**
  * 刷新订单表格
  */
-function updateTableInv(invs){
-  //测试数据
-  var dataSet = [
-    ['Trident','Internet Explorer 4.0','Win 95+','4','X'],
-    ['Trident','Internet Explorer 5.0','Win 95+','5','C'],
-    ['Trident','Internet Explorer 5.5','Win 95+','5.5','A'],
-    ['Trident','Internet Explorer 6','Win 98+','6','A'], ];
-   
-    var dt=$("#dataTables-invoice");
-    if(!dt){
+function updateTableInv(invs) {
+    //测试数据
+    var dataSet = [
+        ['Trident', 'Internet Explorer 4.0', 'Win 95+', '4', 'X'],
+        ['Trident', 'Internet Explorer 5.0', 'Win 95+', '5', 'C'],
+        ['Trident', 'Internet Explorer 5.5', 'Win 95+', '5.5', 'A'],
+        ['Trident', 'Internet Explorer 6', 'Win 98+', '6', 'A'],];
+
+    var dt = $("#dataTables-invoice");
+    if (!dt) {
         console.log("没有找到表");
         return;
     }
     dt.DataTable({
-    data:invs,
-    columns: [
-    {
-        "title":"单号",
-        "data":"INV_ID",
-        "width":"auto",
-       
-    },
-    {
-        "title": "发送者姓名",
-       "data":"INV_ID",
-        
+        data: invs,
+        destroy: "true",
+        columns: [
+            {
+                "title": "单号",
+                "data": "INV_ID",
+                "width": "auto",
 
-    },
-    {
-        "title": "发送者电话",
-                "data":"INV_ID",
-  
-
-    },
-    {
-        "title": "货物信息",
-                "data":"INV_ID",
-   
-
-    },
-    {
-        "title": "接受者",
-        "data":"INV_ID",
-
-
-    },
-    {
-        "title": "送往地址",
-        "data":"INV_ID",
-
-
-    },
-    {
-        "title": "订单状态",
-        "data":"INV_ID",
-
-    },
-    {
-        "data":null,
-        "class":"center"
-
-    }], 
-     columnDefs:[{
-                targets: 7,
-                render: function (data, type, row, meta) {
-                    return '<a type="button" class="btn btn-success center"  onclick=invoceOp(' + row.INV_ID + ') >详细操作</a>';
-                }
             },
-                { "orderable": false, "targets": 7 },
-            ],
+            {
+                "title": "发送者姓名",
+                "data": "sender_name",
+                "width": "auto",
+
+
+            },
+            {
+                "title": "发送者电话",
+                "data": "sender_phone",
+                "width": "auto",
+
+            },
+            {
+                "title": "货物信息",
+                "data": "good_name",
+                "width": "auto",
+
+            },
+            {
+                "title": "接受者",
+                "data": "receiver_name",
+                "width": "auto",
+
+            },
+            {
+                "title": "送往地址",
+                "data": "receiver_addr",
+                "width": "auto",
+
+            },
+            {
+                "title": "订单状态",
+                "data": "inv_status_str",
+                "width": "auto",
+            },
+            {
+                "data": null,
+                "class": "center",
+                "width": "auto",
+            }],
+        columnDefs: [{
+            targets: 7,
+            render: function (data, type, row, meta) {
+
+                return '<a type="button" class="btn btn-success center"  data-toggle="modal" data-target=".bs-example-modal-sm2"  onClick="invoceOp(' + "'" + row.INV_ID + "'" + ')" >详细操作</a>';
+
+            }
+        },
+        { "orderable": false, "targets": 1 },
+        ],
     });
 }
 
 /**
  *订单操作
- * */   
-function invoceOp(id){
-    console.log(id);
-    
+ * */
+function invoceOp(id) {
+    var inv=dataManager.instance.getInvByid(id);
+
+     $("#inv_id2").val(inv.INV_ID);
+     $("#inv_cost2").val(inv.cost);
+     $("#good_name2").val(inv.good_name);
+     $("#good_num2").val( inv.good_num);
+     $("#invselect2").val(inv.sender_name);    
+     $("#receiver_name2").val(inv.receiver_name);
+     $("#receiver_phone2").val(inv.receiver_phone);
+     $("#receiver_addr2").val(inv.receiver_addr);
+     $("#opid2").val(getSysNameById(inv.opid));
+
+    inv.opid = dataManager.instance.data.sysu.user_id;
+    $("#invselectwop2").val(dataManager.instance.getOdoById(id).operator_id);
+    $("#invselectdriver2").val(dataManager.instance.getloaddoByid(id).diver_id);
+
 };
+
+function getSysNameById(id){
+    return dataManager.instance.getSysByid(id).name;
+}
 
 
 /**
  * 刷新客户表格
  */
-function updateTableCus(cus){
+function updateTableCus(cus) {
 
-    var dt=$("#dataTables-customer");
-    if(!dt){
+    var dt = $("#dataTables-customer");
+    if (!dt) {
         console.log("没有找到表");
         return;
     }
-    dt.aja
     dt.DataTable({
-    data:cus,
-    destroy:"true",
-    columns: [
-    {
-        "title":"编号",
-        "data":"cus_id",
-        "width":"auto",
-       
-    },
-    {
-        "title": "姓名",
-       "data":"sender_name",
-        
+        data: cus,
+        destroy: "true",
+        columns: [
+            {
+                "title": "编号",
+                "data": "cus_id",
+                "width": "auto",
 
-    },
-    {
-        "title": "公司",
-        "data":"company",
-  
-
-    },
-    {
-        "title": "电话",
-        "data":"sender_phone",
-   
-
-    },
-    {
-        "title": "地址",
-        "data":"addr",
-        "width":"auto",
-
-    },
-    {
-        "data":null,
-
-    }], 
-     columnDefs:[{
-                targets: 5,
-                render: function (data, type, row, meta) {
-                    return '<a type="button" class="btn btn-success center"  data-toggle="modal" data-target="#cusop" onclick=customerOp(' + row.cus_id + ') >详细操作</a>';
-                }
             },
-                { "orderable": false, "targets": 1 },
-            ],
+            {
+                "title": "姓名",
+                "data": "sender_name",
+
+
+            },
+            {
+                "title": "公司",
+                "data": "company",
+
+
+            },
+            {
+                "title": "电话",
+                "data": "sender_phone",
+
+
+            },
+            {
+                "title": "地址",
+                "data": "addr",
+                "width": "auto",
+
+            },
+            {
+                "data": null,
+
+            }],
+        columnDefs: [{
+            targets: 5,
+            render: function (data, type, row, meta) {
+                return '<a type="button" class="btn btn-success center"  data-toggle="modal" data-target="#cusop" onClick="customerOp(' + row.cus_id + ')" >详细操作</a>';
+            }
+        },
+        { "orderable": false, "targets": 1 },
+        ],
     });
 }
 
 
 /**
  *订单操作
- * */   
-function customerOp(id){
+ * */
+function customerOp(id) {
     $("#cusidop").val(id);
-    let cus=dataManager.instance.getCusByid(id);  
-    if(!cus){
-        console.error("数据里没找到customer:id="+id);
+    let cus = dataManager.instance.getCusByid(id);
+    if (!cus) {
+        console.error("数据里没找到customer:id=" + id);
         return;
     }
     $("#cusaddrop").val(cus.addr);
@@ -166,203 +187,423 @@ function customerOp(id){
 
 };
 
-function invsaddpre(){
+function invsaddpre() {
     $("#invsenderinfo").html("");
-    
-    var se=new Array();
-    var cus=dataManager.instance.data.cus;
+
+    var se = new Array();
+    var cus = dataManager.instance.data.cus;
     //TODO 是否可以增加订单
 
-    se.push(' <option></option>')  
-    for(i=0;i<cus.length;i++){
-           se.push(' <option value="'+cus[i].cus_id+'">'+cus[i].sender_name+'</option>')    
+    se.push(' <option></option>')
+    for (i = 0; i < cus.length; i++) {
+        se.push(' <option value="' + cus[i].cus_id + '">' + cus[i].sender_name + '</option>')
     }
     $("#invselect").html(se);
-    $("#invselect").change(function (){
-       var secus=dataManager.instance.getCusByid($("#invselect").val());
-       
-       var dat=['  <div class="form-group">',
-'                                            <label>客户id</label>',
-'                                            <input class="form-control"  value="'+secus.cus_id+'" id="cus_id" disabled>',
-'                                      </div>',
-'                                      ',
-'                                      <div class="form-group">',
-'                                            <label>客户电话</label>',
-'                                            <input class="form-control"  value="'+secus.sender_phone+'" disabled>',
-'         </div>'].join("");
-        $("#invsenderinfo").html(dat);    
+    $("#invselect").change(function () {
+        var secus = dataManager.instance.getCusByid($("#invselect").val());
+
+        var dat = ['  <div class="form-group">',
+            '                                            <label>客户id</label>',
+            '                                            <input class="form-control"  value="' + secus.cus_id + '" id="cus_id" disabled>',
+            '                                      </div>',
+            '                                      ',
+            '                                      <div class="form-group">',
+            '                                            <label>客户电话</label>',
+            '                                            <input class="form-control"  value="' + secus.sender_phone + '" disabled>',
+            '         </div>'].join("");
+        $("#invsenderinfo").html(dat);
     });
-    
 
 
-    var ds=dataManager.instance.getSysByType(roletype.diver);
-    var dsse=new Array();
-    dsse.push(' <option></option>'); 
-     for(i=0;i<ds.length;i++){
-           dsse.push(' <option value="'+ds[i].user_id+'">'+ds[i].name+'</option>')    
+
+    var ds = dataManager.instance.getSysByType(roletype.diver);
+    var dsse = new Array();
+    dsse.push(' <option></option>');
+    for (i = 0; i < ds.length; i++) {
+        dsse.push(' <option value="' + ds[i].user_id + '">' + ds[i].name + '</option>')
     }
     $("#invselectdriver").html(dsse);
 
 
-    var wops=dataManager.instance.getSysByType(roletype.operator_Warehouse);
-    var wopse=new Array();
-    wopse.push(' <option></option>'); 
-     for(i=0;i<wops.length;i++){
-           wopse.push(' <option value="'+wops[i].user_id+'">'+wops[i].name+'</option>')    
+    var wops = dataManager.instance.getSysByType(roletype.operator_Warehouse);
+    var wopse = new Array();
+    wopse.push(' <option></option>');
+    for (i = 0; i < wops.length; i++) {
+        wopse.push(' <option value="' + wops[i].user_id + '">' + wops[i].name + '</option>')
     }
     $("#invselectwop").html(wopse);
-    
+
 
     $("#opid").val(dataManager.instance.data.sysu.name);
 }
 
 
-function invAdd(){
-    var inv=new vo.invoice();
-    inv.good_name=$("#good_name").val();
-    inv.good_num=$("#good_num").val();
-    inv.good_num=$("#good_identifier").val();
-    var cusid=$("#invselect").val();
-    var cus=dataManager.instance.getCusByid(cusid);
+function invAdd() {
+    var inv = new vo.invoice();
+    inv.good_name = $("#good_name").val();
+    inv.good_num = $("#good_num").val();
+    inv.cost = $("#inv_cost").val();
+    inv.good_num = $("#good_identifier").val();
+    var cusid = $("#invselect").val();
+    var cus = dataManager.instance.getCusByid(cusid);
+   
+    inv.sender_ID = cus.cus_id;
+    inv.sender_name = cus.sender_name;
+    inv.sender_phone = cus.sender_phone
+    inv.receiver_name = $("#receiver_name").val();
+    inv.receiver_phone = $("#receiver_phone").val();
+    inv.receiver_addr = $("#receiver_addr").val();
 
-    inv.sender_ID=cus.cus_id;
-    inv.sender_name=cus.sender_phone;
-    inv.sender_phone=cus.sender_phone
-    inv.receiver_name=$("#receiver_name").val();
-    inv.receiver_phone=$("#receiver_phone").val();
-    inv.receiver_addr=$("#receiver_addr").val();
-    
-    inv.opid=dataManager.instance.data.sysu.user_id;
-    
-    
-    var wopid=$("#invselectwop").val(); 
-    var driverid=$("#invselectdriver").val();
-    var wop=dataManager.instance.getSysByid(wopid);
-    var driver=dataManager.instance.getSysByid(driverid);
+    inv.opid = dataManager.instance.data.sysu.user_id;
 
-    
 
-    
+    var wopid = $("#invselectwop").val();
+    var driverid = $("#invselectdriver").val();
+    var wop = dataManager.instance.getSysByid(wopid);
+    var driver = dataManager.instance.getSysByid(driverid);
+
+
+
+
     //req
-    var reqmsg=new msgClass.invcreate();
-    reqmsg.inv=inv;
-    reqmsg.autoid=driver.autoid;
-    reqmsg.driverid=driver.user_id;
-    reqmsg.wopid=wopid;
-    reqmsg.drivername=driver.name;
-    cs=new msg(msgType.invcreate,JSON.stringify(reqmsg));
-    NetMgr.instance.WSsend(cs);   
-      
+    var reqmsg = new msgClass.invcreate();
+    reqmsg.inv = inv;
+    reqmsg.autoid = driver.autoid;
+    reqmsg.driverid = driver.user_id;
+    reqmsg.wopid = wopid;
+    reqmsg.drivername = driver.name;
+    cs = new msg(msgType.invcreate, JSON.stringify(reqmsg));
+    NetMgr.instance.WSsend(cs);
+
 }
 
+
+function delInv(){
+   //req
+    
+    var reqmsg = new msgClass.invOp();
+    reqmsg.invs=new Array();
+    reqmsg.invs.push(dataManager.instance.getInvByid($("#inv_id2").val()));
+    reqmsg.op=operator.del;
+    cs = new msg(msgType.invOp, JSON.stringify(reqmsg));
+    NetMgr.instance.WSsend(cs);
+}
 
 /**
  *客户操作
  * */
-function addcus(){
-    var cus=new vo.customer();
-    cus.sender_name=$("#cusname").val();
-    cus.company=$("#cuscompany").val();
-    cus.sender_phone=$("#cusphone").val();
-    cus.addr=$("#cusaddr").val();
-    var reqmsg=new msgClass.cusOp();
-    reqmsg.cus=new Array();
+function addcus() {
+    var cus = new vo.customer();
+    cus.sender_name = $("#cusname").val();
+    cus.company = $("#cuscompany").val();
+    cus.sender_phone = $("#cusphone").val();
+    cus.addr = $("#cusaddr").val();
+    var reqmsg = new msgClass.cusOp();
+    reqmsg.cus = new Array();
     reqmsg.cus.push(cus);
-    reqmsg.op=operator.add;
-    cs=new msg(msgType.cusOp,JSON.stringify(reqmsg));
-    NetMgr.instance.WSsend(cs);   
+    reqmsg.op = operator.add;
+    cs = new msg(msgType.cusOp, JSON.stringify(reqmsg));
+    NetMgr.instance.WSsend(cs);
 }
 
-function delcus(){
-    cusid=$("#cusidop").val();
-    var cus=new vo.customer();
-    cus.cus_id=cusid;
-    var reqmsg=new msgClass.cusOp();
-    reqmsg.cus=new Array();
+function delcus() {
+    cusid = $("#cusidop").val();
+    var cus = new vo.customer();
+    cus.cus_id = cusid;
+    var reqmsg = new msgClass.cusOp();
+    reqmsg.cus = new Array();
     reqmsg.cus.push(cus);
-    reqmsg.op=operator.del;
-    cs=new msg(msgType.cusOp,JSON.stringify(reqmsg));
-    NetMgr.instance.WSsend(cs);  
+    reqmsg.op = operator.del;
+    cs = new msg(msgType.cusOp, JSON.stringify(reqmsg));
+    NetMgr.instance.WSsend(cs);
 
 }
 
-function updatecus(){
-    var cus=dataManager.instance.getCusByid($("#cusidop").val());
-    cus.sender_name=$("#cusnameop").val();
-    cus.company=$("#cuscompanyop").val();
-    cus.sender_phone=$("#cusphoneop").val();
-    cus.addr=$("#cusaddrop").val();
-    var reqmsg=new msgClass.cusOp();
-    reqmsg.cus=new Array();
+function updatecus() {
+    var cus = dataManager.instance.getCusByid($("#cusidop").val());
+    cus.sender_name = $("#cusnameop").val();
+    cus.company = $("#cuscompanyop").val();
+    cus.sender_phone = $("#cusphoneop").val();
+    cus.addr = $("#cusaddrop").val();
+    var reqmsg = new msgClass.cusOp();
+    reqmsg.cus = new Array();
     reqmsg.cus.push(cus);
-    reqmsg.op=operator.update;
-    cs=new msg(msgType.cusOp,JSON.stringify(reqmsg));
-    NetMgr.instance.WSsend(cs);         
+    reqmsg.op = operator.update;
+    cs = new msg(msgType.cusOp, JSON.stringify(reqmsg));
+    NetMgr.instance.WSsend(cs);
 }
 
 
 
-function syspost2String(rtype){
-   switch(rtype){
-     case roletype.operator_normal:
-       return "操作员";
-     case roletype.diver:
-       return "司机";
-     case roletype.operator_Warehouse:
-       return "仓库管理员";
-     case roletype.sys:
-       return "超级管理员";
+function syspost2String(rtype) {
+    switch (rtype) {
+        case roletype.operator_normal:
+            return "操作员";
+        case roletype.diver:
+            return "司机";
+        case roletype.operator_Warehouse:
+            return "仓库管理员";
+        case roletype.sys:
+            return "超级管理员";
 
-   }
+    }
 }
 
-var rolemain=document.getElementById("rolemain");
-if(rolemain){
-    rolemain.addEventListener("click",showsysuser,true);  
-}else{
+var rolemain = document.getElementById("rolemain");
+if (rolemain) {
+    rolemain.addEventListener("click", showsysuser, true);
+} else {
     console.error("角色管理按钮没找到");
 }
 
 
 
-function showsysuser(dat){  
-    var base=$("#sysusercenter");
-    if(!base.length){
+function showsysuser(dat) {
+    var base = $("#sysusercenter");
+    if (!base.length) {
         return;
     }
-    if(dat){
-    for(i=0;i<dat.length;i++){
-        var ys=dat[i];
-        var h5=[' <div class="col-lg-4">',
-'                    <div class="panel panel-default">',
-'                        <div class="panel-heading">',
-'                            '+syspost2String(ys.roletype),
-'                        </div>',
-'                        <!-- /.panel-heading -->',
-'                        <div class="panel-body">',
-'                            <div class="col-lg-offset-1">',
-'                            <h3>姓名:'+ys.name+'</h3>   ',
-'                            <h3>工号：'+ys.user_id+'</h3>',
-'                            <h3>电话:'+ys.phone+'</h3>',
-'                            <h3>类别：'+syspost2String(ys.roletype)+'</h3>      ',
-'                            <h3>'+(ys.autoid?'车牌号:'+ys.autoid:'&nbsp')+'</h3>',
-'                            <div class="pull-right">',
-'                            <button type="button" class="btn btn-outline btn-success btn-lg ">操作</button>',
-'                            </div>                            ',
-'                            </div>                            ',
-'                        </div>',
-'                        <!-- /.panel-body -->',
-'                    </div>',
-'                    <!-- /.panel -->',
-'                </div>',
-'                <!-- /.col-lg-6 -->',
-'             '].join("");
-        base.append(h5);
-     }
+    if (dat) {
+        for (i = 0; i < dat.length; i++) {
+            var ys = dat[i];
+            var h5 = [' <div class="col-lg-4">',
+                '                    <div class="panel panel-default">',
+                '                        <div class="panel-heading">',
+                '                            ' + syspost2String(ys.roletype),
+                '                        </div>',
+                '                        <!-- /.panel-heading -->',
+                '                        <div class="panel-body">',
+                '                            <div class="col-lg-offset-1">',
+                '                            <h3>姓名:' + ys.name + '</h3>   ',
+                '                            <h3>工号：' + ys.user_id + '</h3>',
+                '                            <h3>电话:' + ys.phone + '</h3>',
+                '                            <h3>类别：' + syspost2String(ys.roletype) + '</h3>      ',
+                '                            <h3>' + (ys.autoid ? '车牌号:' + ys.autoid : '&nbsp') + '</h3>',
+                '                            <div class="pull-right">',
+                '                            <button type="button" class="btn btn-outline btn-success btn-lg ">操作</button>',
+                '                            </div>                            ',
+                '                            </div>                            ',
+                '                        </div>',
+                '                        <!-- /.panel-body -->',
+                '                    </div>',
+                '                    <!-- /.panel -->',
+                '                </div>',
+                '                <!-- /.col-lg-6 -->',
+                '             '].join("");
+            base.append(h5);
+        }
     }
-   
+
+
+}
+
+
+
+
+
+
+/**
+ * 刷新odo
+ */
+function updateTableOdo(odos) {
+    //测试数据
+    var dt = $("#dataTables-odo");
+    if (!dt) {
+        console.log("没有找到表");
+        return;
+    }
+      dt.DataTable({
+        data: odos,
+        destroy: "true",
+        responsive: true,
+        columns: [
+            {
+                "title": "单号",
+                "data": "odo_id",
+                "width": "auto",
+
+            },
+            {
+                "title": "货物名称",
+                "data": "good_name",
+                "width": "auto",
+
+
+            },
+            {
+                "title": "数量",
+                "data": "good_num",
+                "width": "auto",
+
+            },
+            {
+                "title": "时间",
+                "data": "UTCtimeStamp_str",
+                "width": "auto",
+
+            },
+            {
+                "title": "订单状态",
+                "data": "co_status_str",
+                "width": "auto",
+
+            },
+            {
+                "data": null,
+                "width": "auto",
+            }],
+        columnDefs: [{
+            targets: 5,
+            render: function (data, type, row, meta) {
+                if(row.odo_status!=order_status.ONGOING) return '<button  class="btn btn-success disabled"    >操作</button>';
+                return '<a type="button" class="btn btn-success "  data-toggle="modal" data-target="#odomodal"   onClick="odoOp(' + "'" + row.odo_id + "'" + ')" >操作</a>';
+            }
+        },
+        { "orderable": false, "targets": 1 },
+        ],
+    });
+}
+
+
+function odoOp(id){ 
+   var html=new Array();
+    var odo=dataManager.instance.getOdoById(id);
+    html.push(' <h3>单号：'+odo.odo_id+'</h3>  ');
+    html.push(' <h4>&nb sp</h4>  ');
+    html.push(' <h4>货物：'+odo.good_name+'</h4>  ');
+    html.push(' <h4>数量：'+odo.good_num+'</h4>  ');
+    html.push(' <h4>操作员：'+getSysNameById(odo.operator_id)+'</h4>  ');
+    html.push(' <h4>时间：'+odo.UTCtimeStamp_str+'</h4>  ');
+    $("#odomodal_body").html(html);
+    temp_odoid=odo.odo_id;
+}
+
+var temp_odoid=null;
+
+
+function odomark(){
+   marksolve(od_type.odo,temp_odoid);
+}
+
+
+
+
+/**
+ * 刷新loaddo
+ */
+function updateTableloaddo(odos) {
+    //测试数据
+    var dt = $("#dataTables-loaddo");
+    if (!dt) {
+        console.log("没有找到表");
+        return;
+    }
+      dt.DataTable({
+        data: odos,
+        destroy: "true",
+        responsive: true,
+        columns: [
+            {
+                "title": "单号",
+                "data": "loaddo_id",
+                "width": "auto",
+
+            },
+            {
+                "title": "货物名称",
+                "data": "good_name",
+                "width": "auto",
+
+
+            },
+            {
+                "title": "数量",
+                "data": "good_num",
+                "width": "auto",
+
+            },
+              {
+                "title": "车牌号",
+                "data": "autoid",
+                "width": "auto",
+
+            },
+            {
+                "title": "操作员",
+                "data": "op_name",
+                "width": "auto",
+
+            },
+            {
+                "title": "时间",
+                "data": "UTCTimeStamp_str",
+                "width": "auto",
+
+            },
+            {
+                "title": "订单状态",
+                "data": "loaddo_status_syr",
+                "width": "auto",
+
+            },
+            {
+                "data": null,
+                "width": "auto",
+            }],
+        columnDefs: [{
+            targets: 7,
+            render: function (data, type, row, meta) {
+                if(row.loaddo_status!=order_status.ONGOING) return '<button  class="btn btn-success disabled">操作</button>';
+                return '<a type="button" class="btn btn-success "  data-toggle="modal" data-target="#loaddomodal"   onClick="loadOp(' + "'" + row.loaddo_id + "'" + ')" >操作</a>';
+            }
+        },
+        { "orderable": false, "targets": 1 },
+        ],
+    });
+}
+
+function loadOp(id){ 
+    var html=new Array();
+    var loaddo=dataManager.instance.getloaddoByid(id);
+    html.push(' <h3>单号：'+loaddo.loaddo_id+'</h3>  ');
+    html.push(' <h4>&nbsp</h4>  ');
+    html.push(' <h4>货物：'+loaddo.good_name+'</h4>  ');
+    html.push(' <h4>数量：'+loaddo.good_num+'</h4>  ');
+    html.push(' <h4>交接车牌号：'+loaddo.autoid+'</h4>  ');
+    html.push(' <h4>操作员：'+loaddo.op_name+'</h4>  ');
+    html.push(' <h4>时间：'+loaddo.UTCTimeStamp_str+'</h4>  ');
+    $("#odomodal_body").html(html);
+    temp_loaddoid=loaddo.loaddo_id;
     
 }
+var temp_loaddoid=null;
+
+function loaddomark(){
+    marksolve(od_type.loaddo,temp_loaddoid);
+}
+
+/**
+ * type类型 pk 主键
+ */
+function marksolve(type,pk){
+    var reqmsg = new msgClass.markitsolve();
+    reqmsg.pk=pk;
+    reqmsg.type=type;
+    cs = new msg(msgType.markitsolve, JSON.stringify(reqmsg));
+    NetMgr.instance.WSsend(cs);
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -8,11 +8,57 @@ class dataManager{
    }
 
    private dataMian:msgClass.SCupdateAll;
+   
    public set data(dat:msgClass.SCupdateAll){
       this.dataMian=dat;
+      if(this.dataMian.invs){  //补全信息显示用
+
+          for(var i=0;i<this.dataMian.invs.length;i++){
+              this.dataMian.invs[i].inv_status_str=vo.inv_stu2Sstring(this.dataMian.invs[i].inv_status);
+              this.dataMian.invs[i].timeString=new Date(this.dataMian.invs[i].UTCTimeStamp).toLocaleString();
+          }
+      }
+
+      if(this.dataMian.odos){
+          for(var i=0;i<this.dataMian.odos.length;i++){
+              this.dataMian.odos[i].co_status_str=getOrderStatusStr(od_type.odo,this.dataMian.odos[i].odo_status);
+              this.dataMian.odos[i].UTCtimeStamp_str=new Date(this.dataMian.odos[i].UTCtimeStamp).toLocaleString();
+              this.dataMian.odos[i].good_name=this.getInvByid(  this.dataMian.odos[i].odo_id).good_name;
+              this.dataMian.odos[i].good_num=this.getInvByid(  this.dataMian.odos[i].odo_id).good_num;           
+          }
+          
+      }
+
+     if(this.dataMian.loaddos){
+          for(var i=0;i<this.dataMian.odos.length;i++){
+              this.dataMian.loaddos[i].loaddo_status_syr=getOrderStatusStr(od_type.loaddo,this.dataMian.loaddos[i].loaddo_status);
+              this.dataMian.loaddos[i].UTCTimeStamp_str=new Date(this.dataMian.loaddos[i].UTCTimeStamp).toLocaleString();
+              this.dataMian.loaddos[i].good_name=this.getInvByid(  this.dataMian.loaddos[i].loaddo_id).good_name;
+              this.dataMian.loaddos[i].good_num=this.getInvByid(  this.dataMian.loaddos[i].loaddo_id).good_num;                        
+              this.dataMian.loaddos[i].op_name=getSysNameById(this.dataMian.loaddos[i].diver_id);                       
+          }
+          
+      }
+
+     if(this.dataMian.tps){
+          for(var i=0;i<this.dataMian.odos.length;i++){
+              this.dataMian.tps[i].transport_status_str=getOrderStatusStr(od_type.tps,this.dataMian.tps[i].transport_status);
+              this.dataMian.tps[i].UTCTimeStamp_str=new Date(this.dataMian.tps[i].UTCTimeStamp).toLocaleString();
+              this.dataMian.tps[i].good_name=this.getInvByid(  this.dataMian.tps[i].transport_id).good_name;
+              this.dataMian.tps[i].good_num=this.getInvByid(  this.dataMian.tps[i].transport_id).good_num; 
+
+              this.dataMian.tps[i].receiver_name=this.getInvByid(  this.dataMian.tps[i].transport_id).receiver_name;                        
+              this.dataMian.tps[i].receiver_addr=this.getInvByid(  this.dataMian.tps[i].transport_id).receiver_addr;                        
+              this.dataMian.tps[i].receiver_phone=this.getInvByid(  this.dataMian.tps[i].transport_id).receiver_phone;                        
+              this.dataMian.tps[i].cost=this.getInvByid(  this.dataMian.tps[i].transport_id).cost;                        
+          }
+          
+      }
+
       this.showall();
   
    }
+
    public get data(){
        return this.dataMian;
    }
@@ -25,7 +71,10 @@ class dataManager{
     updateTableCus(this.dataMian.cus);
     showsysuser(this.dataMian.sysusers);
 
+    updateTableOdo(this.dataMian.odos);
+    updateTableloaddo(this.dataMian.loaddos);
    }
+   
 
    public getCusByid(id:number):vo.customer{  
         id=Number(id);      
@@ -43,6 +92,36 @@ class dataManager{
         };
         return null;
    }
+
+   
+   public getInvByid(id:string):vo.invoice{     
+        if(this.dataMian && this.dataMian.invs) {
+            return this.dataMian.invs.find((value:vo.invoice)=>{return value.INV_ID==id});
+        };
+        return null;
+   }
+
+   public getloaddoByid(id:string):vo.loaddo{     
+        if(this.dataMian && this.dataMian.loaddos) {
+            return this.dataMian.loaddos.find((value:vo.loaddo)=>{return value.loaddo_id==id});
+        };
+        return null;
+   }
+
+   public getTpsByid(id:string):vo.transport{     
+        if(this.dataMian && this.dataMian.tps) {
+            return this.dataMian.tps.find((value:vo.transport)=>{return value.transport_id==id});
+        };
+        return null;
+   }
+
+    public getOdoById(id:string):vo.odo{     
+        if(this.dataMian && this.dataMian.odos) {
+            return this.dataMian.odos.find((value:vo.odo)=>{return value.odo_id==id});
+        };
+        return null;
+   }
+
 
     public getSysByType(type:roletype):vo.sysuer[]{  
         var redata=new Array<vo.sysuer>();
@@ -87,3 +166,27 @@ class dataManager{
    }
 } 
 
+enum od_type{
+    odo =1,
+    tps=2,
+    loaddo=3
+
+}
+
+function getOrderStatusStr(otype,ost){
+if(ost==order_status.ONGOING){
+    if(otype==od_type.odo){
+        return "1-出库中"
+    }else   if(otype==od_type.tps){
+        return "1-运送中"
+    }else{
+        return "1-装车中"
+    }
+}
+   switch(ost){
+     case order_status.NOT_START:
+      return "0-未开始"
+     case order_status.FINISH:
+       return "2-已完成"
+   }
+}

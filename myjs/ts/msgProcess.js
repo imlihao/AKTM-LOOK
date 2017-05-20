@@ -100,6 +100,13 @@ var msgClass;
         return invcreate;
     }());
     msgClass.invcreate = invcreate;
+    var markitsolve = (function () {
+        function markitsolve() {
+            this.itype = msgType.markitsolve;
+        }
+        return markitsolve;
+    }());
+    msgClass.markitsolve = markitsolve;
 })(msgClass || (msgClass = {}));
 var vo;
 (function (vo) {
@@ -121,6 +128,20 @@ var vo;
         return invoice;
     }());
     vo.invoice = invoice;
+    function inv_stu2Sstring(inv_st) {
+        switch (inv_st) {
+            case inv_status.chuku:
+                return "1-出库中";
+            case inv_status.zhuangche:
+                return "2-装车中";
+            case inv_status.peisong:
+                return "3-配送中";
+            case inv_status.finish:
+                return "4-完成";
+        }
+        return "1-出库中";
+    }
+    vo.inv_stu2Sstring = inv_stu2Sstring;
     /**
      * 配送单
      */
