@@ -332,7 +332,7 @@
             </div>
             <!-- /.row -->
             
-            <div class="row">             
+            <div class="row" id="sysusercenter">             
                 <div class="col-lg-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -359,7 +359,182 @@
              
         </div>
         <!-- /#page-wrapper -->
+       
+            
+            
+            
+            
+              <div class="modal fade bs-example-modal-lg" id="sysadd" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                 <div class="modal-dialog modal-md" role="document">
+                 <div class="modal-content">
+                   <!-- 自定义新增用户 -->
+          
+              <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            新增系统用户
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                  <form role="form">
+                                     <div class="form-group">
+                                            <label>工号</label>
+                                            <input type="number" class="form-control" placeholder="id" id="sysid">
+                                      </div>
+                                      <div class="form-group">
+                                            <label>姓名</label>
+                                            <input class="form-control" placeholder="name" id="sysname">
+                                      </div>
+                                     
 
+                                      <div class="form-group">
+                                            <label>电话</label>
+                                            <input class="form-control" placeholder="phone" id="sysphone">
+                                      </div>
+                                      
+                                      
+                                      <div class="form-group">
+                                            <label>密码</label>
+                                            <input class="form-control" type="password" placeholder="psd" id="syspsd">
+                                      </div>
+                                
+                                      
+                                       <div class="form-group">
+                                            <label>类型</label>
+                                            <select class="form-control" id="systype">
+                                                <option value="2">普通操作员</option>
+                                                <option value="3">仓库操作员</option>
+                                                <option value="4">司机</option>
+                                            </select>
+                                       </div>
+                                      <div class="form-group" id="auto">
+                    
+                                      </div>
+                                    <div class="modal-footer">
+                                       <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                       <button type="button" class="btn btn-primary"  data-dismiss="modal" onclick="addsys()">新增</button>
+                                    </div>
+                                  </form>
+                                </div>
+                                <!-- /.col-lg-6 (nested) -->
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+               </div>
+                <!-- /.row -->                     
+                </div>
+                </div>
+                </div>
+           
+            
+            
+                       
+           
+            
+              <div class="modal fade "  id="sysop"  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                 <div class="modal-dialog modal-md" role="document">
+                 <div class="modal-content">
+                   <!-- 用户信息修改 -->
+                   <div class="row">
+                  <div class="col-lg-12">
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                            客户信息修改
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                  <form role="form">
+                                  <div class="form-group">
+                                            <label>工号</label>
+                                            <input type="number" class="form-control" placeholder="id" id="sysidop" disabled>
+                                      </div>
+                                      <div class="form-group">
+                                            <label>姓名</label>
+                                            <input class="form-control" placeholder="name" id="sysnameop">
+                                      </div>
+                                     
+
+                                      <div class="form-group">
+                                            <label>电话</label>
+                                            <input class="form-control" placeholder="phone" id="sysphoneop">
+                                      </div>
+                                      
+                                      
+                                      <div class="form-group">
+                                            <label>密码</label>
+                                            <input class="form-control" type="password" placeholder="phone" id="syspsdop">
+                                      </div>
+                                      
+                                      <div class="form-group">
+                                            <label>类型</label>
+                                            <input class="form-control"  placeholder="type" id="systypeop" disabled>
+                                      </div>
+                                       <div class="form-group"  id="autoiddiv">
+                       
+                                      </div>
+                                      
+                                    <div class="modal-footer">
+                                        <div class="pull-left">
+                                          <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="delsys()">删除</button>
+                                        </div>
+                                       <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>                                    
+                                       <button type="button" class="btn btn-primary"  data-dismiss="modal" onclick="updatesys()">修改</button>
+                                    </div>
+                                  </form>
+                                </div>
+                                <!-- /.col-lg-6 (nested) -->
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+               </div>
+                <!-- /.row -->       
+             <!-- 自定义新增用户end --> 
+               
+                </div>
+                </div>
+                </div>
+              <div class="row">
+              <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            订单完成情况
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div id="morris-donut-chart2"></div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                  
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                             成员订单归属
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div id="morris-bar-chart2"></div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+             </div>
     </div>
     <!-- /#wrapper -->
 

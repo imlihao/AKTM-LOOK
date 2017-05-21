@@ -73,8 +73,11 @@ function updateTableInv(invs) {
         columnDefs: [{
             targets: 7,
             render: function (data, type, row, meta) {
-
-                return '<a type="button" class="btn btn-success center"  data-toggle="modal" data-target=".bs-example-modal-sm2"  onClick="invoceOp(' + "'" + row.INV_ID + "'" + ')" >详细操作</a>';
+                if(row.inv_status==inv_status.finish){
+                   return '<a type="button" class="btn btn-success center"  data-toggle="modal" data-target=".bs-example-modal-sm2"  onClick="invoceOp(' + "'" + row.INV_ID + "',0" + ')" >查看</a>';
+                    
+                }
+                return '<a type="button" class="btn btn-success center"  data-toggle="modal" data-target=".bs-example-modal-sm2"  onClick="invoceOp(' + "'" + row.INV_ID + "',1" + ')" >操作</a>';
 
             }
         },
@@ -86,9 +89,13 @@ function updateTableInv(invs) {
 /**
  *订单操作
  * */
-function invoceOp(id) {
+function invoceOp(id,pos) {
     var inv=dataManager.instance.getInvByid(id);
-
+     if(pos==1){
+       $("#inv_submit2").attr('disabled',false);         
+     }else{
+       $("#inv_submit2").attr('disabled',true);         
+     }
      $("#inv_id2").val(inv.INV_ID);
      $("#inv_cost2").val(inv.cost);
      $("#good_name2").val(inv.good_name);
@@ -102,6 +109,8 @@ function invoceOp(id) {
     inv.opid = dataManager.instance.data.sysu.user_id;
     $("#invselectwop2").val(dataManager.instance.getOdoById(id).operator_id);
     $("#invselectdriver2").val(dataManager.instance.getloaddoByid(id).diver_id);
+
+    
 
 };
 
@@ -360,10 +369,14 @@ if (rolemain) {
 
 function showsysuser(dat) {
     var base = $("#sysusercenter");
-    if (!base.length) {
+    if (base.length==0) {
+        console.error("没找到客户信息div");
         return;
     }
+      base.html("");
+    dat=dataManager.instance.data.sysusers;
     if (dat) {
+        
         for (i = 0; i < dat.length; i++) {
             var ys = dat[i];
             var h5 = [' <div class="col-lg-4">',
@@ -380,7 +393,8 @@ function showsysuser(dat) {
                 '                            <h3>类别：' + syspost2String(ys.roletype) + '</h3>      ',
                 '                            <h3>' + (ys.autoid ? '车牌号:' + ys.autoid : '&nbsp') + '</h3>',
                 '                            <div class="pull-right">',
-                '                            <button type="button" class="btn btn-outline btn-success btn-lg ">操作</button>',
+                '                            <button type="button"   data-toggle="modal" data-target="#sysadd" class="btn btn-outline btn-success btn-lg" onClick="sysPre()">增加用户</button>',                
+                '                            <button type="button"   data-toggle="modal" data-target="#sysop" class="btn btn-outline btn-success btn-lg" onClick="sysop('+ys.user_id +')">操作</button>',
                 '                            </div>                            ',
                 '                            </div>                            ',
                 '                        </div>',
@@ -397,8 +411,89 @@ function showsysuser(dat) {
 
 }
 
+function sysop(id){
+  var sys=dataManager.instance.getSysByid(id);
+  $("#sysidop").val(sys.user_id);
+  $("#sysnameop").val(sys.name);
+  $("#sysphoneop").val(sys.phone);
+  $("#syspsdop").val(sys.psd);
+  $("#systypeop").val(syspost2String(sys.roletype));
+  if(sys.roletype==roletype.diver){
+     var ht=['                     <label>车牌号</label>',
+'                                            <input class="form-control"  placeholder="autoid" id="autoidop">'].join("");
+    $("#autoiddiv").html(ht);
+   $("#autoidop").val(sys.autoid);
+  }else{
+
+      $("#autoiddiv").html("");
+  }
 
 
+}
+function sysPre(){
+
+   $("#systype").change(function () {
+      if( $("#systype").val()==roletype.diver){
+      var ht=['                     <label>车牌号</label>',
+'                                            <input class="form-control"  placeholder="autoid" id="autoid">'].join("");
+        $("#auto").html(ht);
+      }else{
+
+       $("#auto").html("");
+      }
+    });
+
+}
+
+function addsys(){
+  var sys=new vo.sysuer();
+  sys.user_id= $("#sysid").val();
+  sys.name= $("#sysname").val();
+  sys.phone= $("#sysphone").val();
+  sys.psd=$("#syspsd").val();
+  sys.roletype=$("#systype").val();
+
+  
+  sys.autoid=$("#autoid").val()?$("#autoid").val():null;
+  
+
+
+  var reqmsg=new msgClass.sysOp();
+  reqmsg.itype=msgType.sysOp;
+  reqmsg.op=operator.add;
+  reqmsg.user=new Array();
+  reqmsg.user.push(sys);
+  var sc=new msg(msgType.sysOp,JSON.stringify(reqmsg));
+  NetMgr.instance.WSsend(sc);  
+}
+
+function delsys(){
+  var sys=dataManager.instance.getSysByid($("#sysidop").val());
+
+  var reqmsg=new msgClass.sysOp();
+  reqmsg.itype=msgType.sysOp;
+  reqmsg.op=operator.del;
+  reqmsg.user=new Array();
+  reqmsg.user.push(sys);
+  var sc=new msg(msgType.sysOp,JSON.stringify(reqmsg));
+  NetMgr.instance.WSsend(sc); 
+
+}
+function updatesys(){
+   var sys=dataManager.instance.getSysByid($("#sysidop").val());
+  sys.name= $("#sysnameop").val();
+  sys.phone= $("#sysphoneop").val();
+  sys.psd=$("#syspsdop").val();
+  sys.autoid=$("#autoidop").val();
+
+  var reqmsg=new msgClass.sysOp();
+  reqmsg.itype=msgType.sysOp;
+  reqmsg.op=operator.update;
+  reqmsg.user=new Array();
+  reqmsg.user.push(sys);
+  var sc=new msg(msgType.sysOp,JSON.stringify(reqmsg));
+  NetMgr.instance.WSsend(sc); 
+}
 
 
 
@@ -572,6 +667,7 @@ function loadOp(id){
     html.push(' <h4>交接车牌号：'+loaddo.autoid+'</h4>  ');
     html.push(' <h4>操作员：'+loaddo.op_name+'</h4>  ');
     html.push(' <h4>时间：'+loaddo.UTCTimeStamp_str+'</h4>  ');
+     html.push(' <h4>&nbsp</h4>  ');
     $("#odomodal_body").html(html);
     temp_loaddoid=loaddo.loaddo_id;
     
@@ -594,23 +690,171 @@ function marksolve(type,pk){
 }
 
 
+/**
+ * 刷新tps
+ */
+function updateTableTps(odos) {
+    //测试数据
+    var dt = $("#dataTables-tps");
+    if (!dt) {
+        console.log("没有找到表");
+        return;
+    }
+      dt.DataTable({
+        data: odos,
+        destroy: "true",
+        responsive: true,
+        columns: [
+            {
+                "title": "单号",
+                "data": "transport_id",
+                "width": "auto",
+
+            },
+            {
+                "title": "货物名称",
+                "data": "good_name",
+                "width": "auto",
+
+
+            },
+            {
+                "title": "数量",
+                "data": "good_num",
+                "width": "auto",
+
+            },
+              {
+                "title": "车牌号",
+                "data": "auto_id",
+                "width": "auto",
+
+            }, 
+            {
+                "title": "接收人",
+                "data": "receiver_name",
+                "width": "auto",
+
+            },
+            {
+                "title": "操作员",
+                "data": "diver_name",
+                "width": "auto",
+
+            },
+            {
+                "title": "时间",
+                "data": "UTCTimeStamp_str",
+                "width": "auto",
+
+            },
+            {
+                "title": "订单状态",
+                "data": "transport_status_str",
+                "width": "auto",
+
+            },
+            {
+                "data": null,
+                "width": "auto",
+            }],
+        columnDefs: [{
+            targets: 8,
+            render: function (data, type, row, meta) {
+                if(row.transport_status!=order_status.ONGOING) return '<button  class="btn btn-success disabled">操作</button>';
+                return '<a type="button" class="btn btn-success "  data-toggle="modal" data-target="#tpsmodal"   onClick="tpsOp(' + "'" + row.transport_id + "'" + ')" >操作</a>';
+            }
+        },
+        { "orderable": false, "targets": 1 },
+        ],
+    });
+}
+
+function tpsOp(id){ 
+    var html=new Array();
+    var tps=dataManager.instance.getTpsByid(id);
+    html.push(' <h3>单号：'+tps.transport_id+'</h3>  ');
+    html.push(' <h4>&nbsp</h4>  ');
+    html.push(' <h4>货物：'+tps.good_name+'</h4>  ');
+    html.push(' <h4>数量：'+tps.good_num+'</h4>  ');
+    html.push(' <h4>车牌号：'+tps.auto_id+'</h4>  ');
+    html.push(' <h4>司机：'+tps.diver_name+'</h4>  ');
+
+    html.push(' <h4>&nbsp</h4>  ');
+    html.push(' <h4>接收人：'+tps.receiver_name+'</h4>  ');
+    html.push(' <h4>电话：'+tps.receiver_phone+'</h4>  ');
+    html.push(' <h4>地址：'+tps.receiver_addr+'</h4>  ');
+
+     html.push(' <h4>&nbsp</h4>  ');
+    html.push(' <h4>时间：'+tps.UTCTimeStamp_str+'</h4>  ');
+    $("#tpsmodal_body").html(html);
+    temp_tpsid=tps.transport_id;
+    
+}
+var temp_tpsid=null;
+
+function tpsmark(){
+    marksolve(od_type.tps,temp_tpsid);
+}
 
 
 
 
 
 
+function drowGrid1(a1,a2,a3){
+    console.error(a1,a2,a3);
+    if(!document.getElementById("morris-donut-chart2")){
+     return;
+   }
+     Morris.Donut({
+        element: 'morris-donut-chart2',
+        data: [{
+            label: "正在出库的订单",
+            value:a1 
+        }, {
+            label: "正在装车的订单",
+            value:a2
+        }, {
+            label: "正在配送的订单",
+            value:a3
+        }],
+        resize: true
+    });
+
+    
+}
+
+function drowGrid2(){
+     if(!document.getElementById("morris-bar-chart2")){
+     return;
+   }
+ Morris.Bar({
+        element: 'morris-bar-chart2',
+        data: [{
+            y: '潘子',
+            a: 2,
+            b: 1
+        }, {
+            y: '仓库操作员1',
+            a: 3,
+            b: 2
+        }, {
+            y: '操作员2',
+            a: 4,
+            b: 2
+        }, ],
+        xkey: 'y',
+        ykeys: ['a', 'b'],
+        labels: ['未开始的', '正在进行的'],
+        hideHover: 'auto',
+        resize: true
+    });
+
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+function showname(){    
+        $("#sysu_name").text("用户:" + dataManager.instance.dataMian.sysu.name + "("+getSysEnByType(dataManager.instance.dataMian.sysu.roletype)+")");
+        console.error( $("#sysu_name").val());
+}

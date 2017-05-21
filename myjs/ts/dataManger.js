@@ -1,5 +1,9 @@
 var dataManager = (function () {
     function dataManager() {
+        this.a1 = 0;
+        this.a2 = 0;
+        this.a3 = 0;
+        this.ty = true;
     }
     Object.defineProperty(dataManager, "instance", {
         get: function () {
@@ -17,10 +21,19 @@ var dataManager = (function () {
         },
         set: function (dat) {
             this.dataMian = dat;
+            this.a1 = 0;
+            this.a2 = 0;
+            this.a3 = 0;
             if (this.dataMian.invs) {
                 for (var i = 0; i < this.dataMian.invs.length; i++) {
                     this.dataMian.invs[i].inv_status_str = vo.inv_stu2Sstring(this.dataMian.invs[i].inv_status);
                     this.dataMian.invs[i].timeString = new Date(this.dataMian.invs[i].UTCTimeStamp).toLocaleString();
+                    if (this.dataMian.invs[i].inv_status == inv_status.chuku)
+                        this.a1++;
+                    if (this.dataMian.invs[i].inv_status == inv_status.zhuangche)
+                        this.a2++;
+                    if (this.dataMian.invs[i].inv_status == inv_status.peisong)
+                        this.a3++;
                 }
             }
             if (this.dataMian.odos) {
@@ -52,6 +65,12 @@ var dataManager = (function () {
                     this.dataMian.tps[i].cost = this.getInvByid(this.dataMian.tps[i].transport_id).cost;
                 }
             }
+            if (this.ty) {
+                powerContrl();
+                addevent();
+                this.ty = false;
+            }
+            showname();
             this.showall();
         },
         enumerable: true,
@@ -59,13 +78,16 @@ var dataManager = (function () {
     });
     dataManager.prototype.showall = function () {
         if (!this.data) {
-            console.error("数据dataMian==nu");
+            console.error("数据dataMian==null");
         }
         updateTableInv(this.dataMian.invs);
         updateTableCus(this.dataMian.cus);
-        showsysuser(this.dataMian.sysusers);
+        showsysuser(this.getSysByType(this.systype));
         updateTableOdo(this.dataMian.odos);
         updateTableloaddo(this.dataMian.loaddos);
+        updateTableTps(this.dataMian.tps);
+        drowGrid1(this.a1, this.a2, this.a3);
+        drowGrid2();
     };
     dataManager.prototype.getCusByid = function (id) {
         id = Number(id);
@@ -177,5 +199,17 @@ function getOrderStatusStr(otype, ost) {
             return "0-未开始";
         case order_status.FINISH:
             return "2-已完成";
+    }
+}
+function getSysEnByType(ty) {
+    switch (ty) {
+        case roletype.diver:
+            return "driver";
+        case roletype.operator_normal:
+            return "nop";
+        case roletype.operator_Warehouse:
+            return "wop";
+        case roletype.sys:
+            return "sys";
     }
 }

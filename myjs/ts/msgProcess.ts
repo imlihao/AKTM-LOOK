@@ -55,7 +55,7 @@ namespace msgClass {
   export class sysOp {
     itype = msgType.sysOp;
     op: number;
-    sysusers: vo.sysuer[];
+    user: vo.sysuer[];
   }
 
   export class odoOp {
@@ -235,6 +235,7 @@ namespace vo {
     name: string;
 
     autoid: string;
+
     power_inv: boolean;
     power_odo: boolean;
     power_loaddo: boolean;
@@ -283,7 +284,7 @@ enum operator {
 }
 
 
-enum roletype {
+enum  roletype {
   sys = 1,
   operator_normal = 2,
   operator_Warehouse = 3,

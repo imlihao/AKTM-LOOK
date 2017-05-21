@@ -45,7 +45,7 @@ function switch2customer() {
         '            <div class="row">',
         '            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">新增</button>',
         '                 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">',
-        '                 <div class="modal-dialog modal-lg" role="document">',
+        '                 <div class="modal-dialog modal-md" role="document">',
         '                 <div class="modal-content">',
         '                   <!-- 自定义新增用户 -->',
         '          ',
@@ -58,7 +58,7 @@ function switch2customer() {
         '                        </div>',
         '                        <div class="panel-body">',
         '                            <div class="row">',
-        '                                <div class="col-lg-6">',
+        '                                <div class="col-lg-12">',
         '                                  <form role="form">',
         '                                   ',
         '                                      <div class="form-group">',
@@ -104,7 +104,7 @@ function switch2customer() {
         '           ',
         '            ',
         '              <div class="modal fade "  id="cusop" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">',
-        '                 <div class="modal-dialog modal-lg" role="document">',
+        '                 <div class="modal-dialog modal-md" role="document">',
         '                 <div class="modal-content">',
         '                   <!-- 用户信息修改 -->',
         '                   <div class="row">',
@@ -115,7 +115,7 @@ function switch2customer() {
         '                        </div>',
         '                        <div class="panel-body">',
         '                            <div class="row">',
-        '                                <div class="col-lg-6">',
+        '                                <div class="col-lg-12">',
         '                                  <form role="form">',
         '                                     <div class="form-group">',
         '                                            <label>客户ID</label>',
@@ -191,7 +191,7 @@ function switch2from() {
         return;
     }
     base.html("");
-
+  
     var head = getHeadHtml("发货合同中心");
     var table = ['              <!-- /.row -->',
         '            <div class="row" id="ordercenter">',
@@ -220,6 +220,7 @@ function switch2from() {
         '                                   ',
         '                            </table>',
         '                            <!-- /.table-responsive -->',
+        '            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm"  onclick="invsaddpre()">新增订单</button>',
         '               ',
         '                        </div>',
         '                        <!-- /.panel-body -->',
@@ -232,7 +233,6 @@ function switch2from() {
         '            ',
         '            ',
         '            <div class="row">',
-        '            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm"  onclick="invsaddpre()">新增订单</button>',
         '                 <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">',
         '                 <div class="modal-dialog modal-dialog" role="document">',
         '                 <div class="modal-content">',
@@ -446,13 +446,49 @@ function switch2from() {
         '            ',
         '        </div>',
         '        <!-- /#page-wrapper -->'].join("");
+
+        var grid=['  <div class="row">',
+'              <div class="col-lg-6">',
+'                    <div class="panel panel-default">',
+'                        <div class="panel-heading">',
+'                            订单完成情况',
+'                        </div>',
+'                        <!-- /.panel-heading -->',
+'                        <div class="panel-body">',
+'                            <div id="morris-donut-chart2"></div>',
+'                        </div>',
+'                        <!-- /.panel-body -->',
+'                    </div>',
+'                    <!-- /.panel -->',
+'                </div>',
+'                  ',
+'                <div class="col-lg-6">',
+'                    <div class="panel panel-default">',
+'                        <div class="panel-heading">',
+'                             成员订单归属',
+'                        </div>',
+'                        <!-- /.panel-heading -->',
+'                        <div class="panel-body">',
+'                            <div id="morris-bar-chart2"></div>',
+'                        </div>',
+'                        <!-- /.panel-body -->',
+'                    </div>',
+'                    <!-- /.panel -->',
+'                </div>',
+'             </div>'].join("");
     base.append(head);
     base.append(table);
+    base.append(grid);
     dataManager.instance.showall();
 }
 
 //切换到出库单
 function switch2odo() {
+    if (document.getElementById("dataTables-odo")) {
+        console.error("重复加载");
+        return;
+    }
+
     var head=getHeadHtml("出库管理");
     var body=[' <div class="row">',
 '                <div class="col-lg-12">',
@@ -524,29 +560,314 @@ function switch2odo() {
 
 //切换到装配
 function switch2load() {
-    console.error("sw 2 load");
-
+  if (document.getElementById("dataTables-loaddo")) {
+        console.error("重复加载");
+        return;
+    }
+    var table=['           <div class="row">',
+'                <div class="col-lg-12">',
+'                    <div class="panel panel-default">',
+'                        <div class="panel-heading">',
+'                            装车信息单',
+'                        </div>',
+'                        <!-- /.panel-heading -->',
+'                        <div class="panel-body">',
+'                            <table   class="table table-striped table-bordered table-hover" width="100%" id="dataTables-loaddo">',
+'                                <thead>',
+'                                    <tr>',
+'                                        <th>单号</th>',
+'                                        <th>货物名称</th>',
+'                                        <th>数量</th>',
+'                                        <th>车牌号</th>',
+'                                        <th>操作员</th>',
+'                                        <th>时间</th>',
+'                                        <th>订单状态</th> ',
+'                                        <th>操作</th>                                        ',
+'                                    </tr>',
+'                                </thead>',
+'                               ',
+'                                <tbody>',
+'                                </tbody>',
+'                                   ',
+'                            </table>',
+'                            <!-- /.table-responsive -->',
+'               ',
+'                        </div>',
+'                        <!-- /.panel-body -->',
+'                    </div>',
+'                    <!-- /.panel -->',
+'                </div>',
+'                <!-- /.col-lg-12 -->',
+'            </div>',
+'            <!-- /.row -->',
+'            ',
+'            ',
+'            <div  class="row">',
+'                  <!-- Modal -->',
+'                            <div class="modal fade" id="loaddomodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">',
+'                                <div class="modal-dialog">',
+'                                    <div class="modal-content">',
+'                                        <div class="modal-header">',
+'                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>',
+'                                            <h4 class="modal-title" id="myModalLabel">装车信息单</h4>',
+'                                        </div>',
+'                                        <div class="modal-body" id="odomodal_body" >',
+'                                            <h4>单号：dddddd3232</h4>                       ',
+'                                            <pre>单号：dddddd3232</pre>',
+'                                            <pre>单号：dddddd3232</pre>',
+'                                            <pre>单号：dddddd3232</pre>',
+'                                        </div>',
+'                                        <div class="modal-footer">',
+'                                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>',
+'                                            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="loaddomark()">标记为已完成</button>',
+'                                        </div>',
+'                                    </div>',
+'                                    <!-- /.modal-content -->',
+'                                </div>',
+'                                <!-- /.modal-dialog -->',
+'                            </div>',
+'                            <!-- /.modal -->',
+'            </div>',
+'        </div>'].join("");
+      var base = $("#page-wrapper");
+      base.html(getHeadHtml("装车信息单"));
+      base.append(table);
+      dataManager.instance.showall();
 }
 
 
 
 //切换到配送中心
 function switch2dispatch() {
-    console.error("sw 2 dps");
+    if (document.getElementById("dataTables-tps")) {
+        console.error("重复加载");
+        return;
+    }
+    
+    var table=['   <div class="row">',
+'                <div class="col-lg-12">',
+'                    <div class="panel panel-default">',
+'                        <div class="panel-heading">',
+'                            配送单',
+'                        </div>',
+'                        <!-- /.panel-heading -->',
+'                        <div class="panel-body">',
+'                            <table   class="table table-striped table-bordered table-hover" width="100%" id="dataTables-tps">',
+'                                <thead>',
+'                                    <tr>',
+'                                        <th>单号</th>',
+'                                        <th>货物名称</th>',
+'                                        <th>数量</th>',
+'                                        <th>车牌号</th>',
+'                                        <th>接收人</th>',
+'                                        <th>操作员</th>',
+'                                        <th>时间</th>',
+'                                        <th>订单状态</th> ',
+'                                        <th>操作</th>                                        ',
+'                                    </tr>',
+'                                </thead>',
+'                               ',
+'                                <tbody>',
+'                                </tbody>',
+'                                   ',
+'                            </table>',
+'                            <!-- /.table-responsive -->',
+'               ',
+'                        </div>',
+'                        <!-- /.panel-body -->',
+'                    </div>',
+'                    <!-- /.panel -->',
+'                </div>',
+'                <!-- /.col-lg-12 -->',
+'            </div>',
+'            <!-- /.row -->',
+'            ',
+'            ',
+'            <div  class="row">',
+'                  <!-- Modal -->',
+'                            <div class="modal fade" id="tpsmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">',
+'                                <div class="modal-dialog">',
+'                                    <div class="modal-content">',
+'                                        <div class="modal-header">',
+'                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>',
+'                                            <h4 class="modal-title" id="myModalLabel">装车信息单</h4>',
+'                                        </div>',
+'                                        <div class="modal-body" id="tpsmodal_body" >',
+'                                            <h4>单号：dddddd3232</h4>                       ',
+'                                            <pre>单号：dddddd3232</pre>',
+'                                            <pre>单号：dddddd3232</pre>',
+'                                            <pre>单号：dddddd3232</pre>',
+'                                        </div>',
+'                                        <div class="modal-footer">',
+'                                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>',
+'                                            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="tpsmark()">标记为已完成</button>',
+'                                        </div>',
+'                                    </div>',
+'                                    <!-- /.modal-content -->',
+'                                </div>',
+'                                <!-- /.modal-dialog -->',
+'                            </div>',
+'                            <!-- /.modal -->',
+'            </div>'].join("");
+      var base = $("#page-wrapper");
+      base.html(getHeadHtml("配送信息中心"));
+      base.append(table);
+      dataManager.instance.showall();
 }
 
 //切换到系统用户信息中心
 function switch2sysuser(type) {
-    if (document.getElementById("sysusercenter"+type)) {
-        console.error("重复加载");
-        return;
-    }
+
     var base = $("#page-wrapper");
     base.html("");
     base.append(getHeadHtml(syspost2String(type)+"中心"));
-    base.append(' <div class="row" id="sysusercenter'+type+'">');
+    base.append(' <div class="row" id="sysusercenter">');
     base.append('</div>');
+    var pop=[' ',
+'              <div class="modal fade bs-example-modal-lg" id="sysadd" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">',
+'                 <div class="modal-dialog modal-md" role="document">',
+'                 <div class="modal-content">',
+'                   <!-- 自定义新增用户 -->',
+'          ',
+'              <div class="row">',
+'                <div class="col-lg-12">',
+'                    <div class="panel panel-default">',
+'                        <div class="panel-heading">',
+'                            新增系统用户',
+'                        </div>',
+'                        <div class="panel-body">',
+'                            <div class="row">',
+'                                <div class="col-lg-12">',
+'                                  <form role="form">',
+'                                     <div class="form-group">',
+'                                            <label>工号</label>',
+'                                            <input type="number" class="form-control" placeholder="id" id="sysid">',
+'                                      </div>',
+'                                      <div class="form-group">',
+'                                            <label>姓名</label>',
+'                                            <input class="form-control" placeholder="name" id="sysname">',
+'                                      </div>',
+'                                     ',
+'                                      <div class="form-group">',
+'                                            <label>电话</label>',
+'                                            <input class="form-control" placeholder="phone" id="sysphone">',
+'                                      </div>',
+'                                      ',
+'                                      ',
+'                                      <div class="form-group">',
+'                                            <label>密码</label>',
+'                                            <input class="form-control" type="password" placeholder="psd" id="syspsd">',
+'                                      </div>',
+'                                ',
+'                                      ',
+'                                       <div class="form-group">',
+'                                            <label>类型</label>',
+'                                            <select class="form-control" id="systype">',
+'                                                <option value="2">普通操作员</option>',
+'                                                <option value="3">仓库操作员</option>',
+'                                                <option value="4">司机</option>',
+'                                            </select>',
+'                                       </div>',
+'                                      <div class="form-group" id="auto">',
+'                    ',
+'                                      </div>',
+'                                    <div class="modal-footer">',
+'                                       <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>',
+'                                       <button type="button" class="btn btn-primary"  data-dismiss="modal" onclick="addsys()">新增</button>',
+'                                    </div>',
+'                                  </form>',
+'                                </div>',
+'                                <!-- /.col-lg-6 (nested) -->',
+'                            </div>',
+'                            <!-- /.row (nested) -->',
+'                        </div>',
+'                        <!-- /.panel-body -->',
+'                    </div>',
+'                    <!-- /.panel -->',
+'                </div>',
+'                <!-- /.col-lg-12 -->',
+'               </div>',
+'                <!-- /.row -->                     ',
+'                </div>',
+'                </div>',
+'                </div>',
+'           ',
+'            ',
+'            ',
+'                       ',
+'           ',
+'            ',
+'              <div class="modal fade "  id="sysop"  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">',
+'                 <div class="modal-dialog modal-md" role="document">',
+'                 <div class="modal-content">',
+'                   <!-- 用户信息修改 -->',
+'                   <div class="row">',
+'                  <div class="col-lg-12">',
+'                      <div class="panel panel-default">',
+'                        <div class="panel-heading">',
+'                            客户信息修改',
+'                        </div>',
+'                        <div class="panel-body">',
+'                            <div class="row">',
+'                                <div class="col-lg-12">',
+'                                  <form role="form">',
+'                                  <div class="form-group">',
+'                                            <label>工号</label>',
+'                                            <input type="number" class="form-control" placeholder="id" id="sysidop" disabled>',
+'                                      </div>',
+'                                      <div class="form-group">',
+'                                            <label>姓名</label>',
+'                                            <input class="form-control" placeholder="name" id="sysnameop">',
+'                                      </div>',
+'                                     ',
+'                                      <div class="form-group">',
+'                                            <label>电话</label>',
+'                                            <input class="form-control" placeholder="phone" id="sysphoneop">',
+'                                      </div>',
+'                                      ',
+'                                      ',
+'                                      <div class="form-group">',
+'                                            <label>密码</label>',
+'                                            <input class="form-control" type="password" placeholder="phone" id="syspsdop">',
+'                                      </div>',
+'                                      ',
+'                                      <div class="form-group">',
+'                                            <label>类型</label>',
+'                                            <input class="form-control"  placeholder="type" id="systypeop" disabled>',
+'                                      </div>',
+'                                       <div class="form-group"  id="autoiddiv">',
+'                       ',
+'                                      </div>',
+'                                      ',
+'                                    <div class="modal-footer">',
+'                                        <div class="pull-left">',
+'                                          <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="delsys()">删除</button>',
+'                                        </div>',
+'                                       <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>                                    ',
+'                                       <button type="button" class="btn btn-primary"  data-dismiss="modal" onclick="updatesys()">修改</button>',
+'                                    </div>',
+'                                  </form>',
+'                                </div>',
+'                                <!-- /.col-lg-6 (nested) -->',
+'                            </div>',
+'                            <!-- /.row (nested) -->',
+'                        </div>',
+'                        <!-- /.panel-body -->',
+'                    </div>',
+'                    <!-- /.panel -->',
+'                </div>',
+'                <!-- /.col-lg-12 -->',
+'               </div>',
+'                <!-- /.row -->       ',
+'             <!-- 自定义新增用户end --> ',
+'               ',
+'                </div>',
+'                </div>',
+'                </div>'].join("");
+  base.append(pop);
+    dataManager.instance.systype=type;
     dataManager.instance.showall();
+
 
 }
 
@@ -574,10 +895,42 @@ function user3(){
 
 //权限控制
 function powerContrl() {
+   
     console.error("权限控制");
+    if(dataManager.instance.data.sysu){
+       sy=dataManager.instance.data.sysu.roletype;
+       if(sy==roletype.diver){
+           $("#2order").hide();
+           $("#2odo").hide();
+           $("#wh").hide();
+           $("#2sysuser").hide();
+           console.error("dr  ");
+           
+           switch2load();
+       }else if(sy==roletype.operator_normal){
+           $("#2odo").hide();
+            $("#wh").hide();
+           $("#2sysuser").hide();
+           console.error("o pp ");
+           
+           $("#2dispatch").hide();
+           $("#2load").hide();
+           switch2from();
+       }else if(sy==roletype.operator_Warehouse){
+           $("#2order").hide();
+           $("#2order").hide();
+           console.error("wh ");
+           $("#2sysuser").hide();
+           $("#2load").hide();
+           $("#2dispatch").hide();
+           switch2odo();
+       }else{
+           switch2from();
+       }
+    }
 
 }
-powerContrl();
+
 
 //加监听
 function addevent() {
@@ -618,30 +971,36 @@ function addevent() {
     }
 
 
-    //用户权限，分别处理
-    var tar = document.getElementById("2sysuserdirver");
-    if (tar) {
-        tar.addEventListener("click", user3, true);
-    } else {
-        console.error("没有更改用户权限");
-    }
+    // //用户权限，分别处理
+    // var tar = document.getElementById("2sysuserdirver");
+    // if (tar) {
+    //     tar.addEventListener("click", user3, true);
+    // } else {
+    //     console.error("没有更改用户权限");
+    // }
 
-    var tar = document.getElementById("2sysuserwop");
-    if (tar) {
-        tar.addEventListener("click", user2, true);
-    } else {
-        console.error("没有更改用户权限");
-    }
+    // var tar = document.getElementById("2sysuserwop");
+    // if (tar) {
+    //     tar.addEventListener("click", user2, true);
+    // } else {
+    //     console.error("没有更改用户权限");
+    // }
 
-    var tar = document.getElementById("2sysusernop");
+    // var tar = document.getElementById("2sysusernop");
+    // if (tar) {
+    //     tar.addEventListener("click", user1, true);
+    // } else {
+    //     console.error("没有更改用户权限");
+    // }
+
+    var tar = document.getElementById("2sysuser");
     if (tar) {
         tar.addEventListener("click", user1, true);
     } else {
         console.error("没有更改用户权限");
     }
-
 }
 
-addevent();
+
 
 
