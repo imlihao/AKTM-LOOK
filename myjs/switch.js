@@ -32,6 +32,7 @@ function switch2customer() {
         '                            </table>',
         '                            <!-- /.table-responsive -->',
         '               ',
+        '            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">新增</button>',
         '                        </div>',
         '                        <!-- /.panel-body -->',
         '                    </div>',
@@ -43,7 +44,6 @@ function switch2customer() {
         '            ',
         '            ',
         '            <div class="row">',
-        '            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">新增</button>',
         '                 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">',
         '                 <div class="modal-dialog modal-md" role="document">',
         '                 <div class="modal-content">',
@@ -454,7 +454,7 @@ function switch2from() {
 '                            订单完成情况',
 '                        </div>',
 '                        <!-- /.panel-heading -->',
-'                        <div class="panel-body">',
+'                        <div class="panel-body" id="morris-donut-chart-body">',
 '                            <div id="morris-donut-chart2"></div>',
 '                        </div>',
 '                        <!-- /.panel-body -->',
@@ -468,7 +468,7 @@ function switch2from() {
 '                             成员订单归属',
 '                        </div>',
 '                        <!-- /.panel-heading -->',
-'                        <div class="panel-body">',
+'                        <div class="panel-body" id="morris-bar-chart-body">',
 '                            <div id="morris-bar-chart2"></div>',
 '                        </div>',
 '                        <!-- /.panel-body -->',
@@ -490,7 +490,7 @@ function switch2odo() {
     }
 
     var head=getHeadHtml("出库管理");
-    var body=[' <div class="row">',
+    var body=[' <div class="row" id="chukuguanli">',
 '                <div class="col-lg-12">',
 '                    <div class="panel panel-default">',
 '                        <div class="panel-heading">',
@@ -555,6 +555,8 @@ function switch2odo() {
       var base = $("#page-wrapper");
       base.html(head);
       base.append(body);
+      $("#chukuguanli").append(getDismisPanel(2,1,2));
+       $("#chukuguanli").append(getGonggaoPanel());
       dataManager.instance.showall();
 }
 
@@ -644,7 +646,7 @@ function switch2dispatch() {
         return;
     }
     
-    var table=['   <div class="row">',
+    var table=['   <div class="row" id="peisongzhongxin">',
 '                <div class="col-lg-12">',
 '                    <div class="panel panel-default">',
 '                        <div class="panel-heading">',
@@ -712,6 +714,8 @@ function switch2dispatch() {
       var base = $("#page-wrapper");
       base.html(getHeadHtml("配送信息中心"));
       base.append(table);
+      $("#peisongzhongxin").append(getDismisPanel(3,2,1));
+       $("#peisongzhongxin").append(getGonggaoPanel());
       dataManager.instance.showall();
 }
 
@@ -1003,4 +1007,102 @@ function addevent() {
 
 
 
+function getDismisPanel(d1,d2,d3){
+  var dp=['   <div class="col-lg-6">',
+'                    <div class="panel panel-default">',
+'                        <div class="panel-heading">',
+'                            最近信息',
+'                        </div>',
+'                        <!-- /.panel-heading -->',
+'                        <div class="panel-body">',
+'                            <div class="alert alert-success alert-dismissable">',
+'                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>',
+'                                当前已有'+d1+'订单准备完毕.',
+'                            </div>',
+'                            <div class="alert alert-info alert-dismissable">',
+'                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>',
+'                               当前有'+d2+'订单正在准备中.',
+'                            </div>',
+'                            <div class="alert alert-success alert-dismissable">',
+'                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>',
+'                               今日完成'+0+'订单.',
+'                            </div>',
+'                            <div class="alert alert-info  alert-dismissable">',
+'                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>',
+'                                历史完成'+d3+'订单.',
+'                            </div>',
+'                        </div>',
+'                        <!-- .panel-body -->',
+'                    </div>',
+'                    <!-- /.panel -->',
+'                </div>',
+'                <!-- /.col-lg-6 -->'].join("");
+
+     return dp;
+
+}
+
+
+
+function getGonggaoPanel(){
+    var gp=['  <div class="col-lg-6">',
+'                    <div class="panel panel-default">',
+'                        <div class="panel-heading">',
+'                            公告',
+'                        </div>',
+'                        <!-- .panel-heading -->',
+'                        <div class="panel-body">',
+'                            <div class="panel-group" id="accordion">',
+'                                <div class="panel panel-default">',
+'                                    <div class="panel-heading">',
+'                                        <h4 class="panel-title">',
+'                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">全体公告</a>',
+'                                        </h4>',
+'                                    </div>',
+'                                    <div id="collapseOne" class="panel-collapse collapse in">',
+'                                        <div class="panel-body">',
+'                                           <h4>消息to everyone</h4>',
+'                                            <p>请快速的清理手中的未完成的订单，避免影响下一步</p>',
+'                                        </div>',
+'                                    </div>',
+'                                </div>',
+'                                <div class="panel panel-default">',
+'                                    <div class="panel-heading">',
+'                                        <h4 class="panel-title">',
+'                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">全体公告</a>',
+'                                        </h4>',
+'                                    </div>',
+'                                    <div id="collapseTwo" class="panel-collapse collapse">',
+'                                        <div class="panel-body">',
+'                                            <h4>消息to everyone</h4>',
+'                                            <p>最近订单处理情况：2</p>    ',
+'                                            <p>最近订单处理情况：1</p>',
+'                                            <p>最近订单处理情况：2</p>',
+'                                        </div>',
+'                                    </div>',
+'                                </div>',
+'                                <div class="panel panel-default">',
+'                                    <div class="panel-heading">',
+'                                        <h4 class="panel-title">',
+'                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">普通公告</a>',
+'                                        </h4>',
+'                                    </div>',
+'                                    <div id="collapseThree" class="panel-collapse collapse">',
+'                                        <div class="panel-body">',
+'                                            <h4>消息</h4>',
+'                                           <p>最近订单处理情况：2</p>    ',
+'                                            <p>最近订单处理情况：1</p>',
+'                                            <p>最近订单处理情况：2</p>',
+'                                        </div>',
+'                                    </div>',
+'                                </div>',
+'                            </div>',
+'                        </div>',
+'                        <!-- .panel-body -->',
+'                    </div>',
+'                    <!-- /.panel -->',
+'                </div>',
+'                <!-- /.col-lg-12 -->'].join("");
+  return gp;
+}
 

@@ -205,7 +205,7 @@ function getOrderStatusStr(otype, ost) {
     }
     switch (ost) {
         case order_status.NOT_START:
-            return "0-未开始"
+            return "3-未开始"
         case order_status.FINISH:
             return "2-已完成"
     }

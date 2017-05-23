@@ -1,4 +1,4 @@
-$("window").ready(function () {
+$(function () {
     csmsg = new msg(msgType.SCupdateAll, "")
     NetMgr.instance.WSsend(csmsg);
 });
@@ -356,13 +356,6 @@ function syspost2String(rtype) {
             return "超级管理员";
 
     }
-}
-
-var rolemain = document.getElementById("rolemain");
-if (rolemain) {
-    rolemain.addEventListener("click", showsysuser, true);
-} else {
-    console.error("角色管理按钮没找到");
 }
 
 
@@ -804,9 +797,12 @@ function tpsmark(){
 
 function drowGrid1(a1,a2,a3){
     console.error(a1,a2,a3);
+    
     if(!document.getElementById("morris-donut-chart2")){
      return;
    }
+   $("#morris-donut-chart-body").html('<div id="morris-donut-chart2"></div>');
+   $("#morris-bar-chart-body").html('<div id="morris-bar-chart2"></div>');
      Morris.Donut({
         element: 'morris-donut-chart2',
         data: [{
