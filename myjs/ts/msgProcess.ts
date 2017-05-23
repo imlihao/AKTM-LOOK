@@ -209,7 +209,7 @@ namespace vo {
     //    int good_identifier;
 
     //操作员
-    operator_id: string;
+    operator_id: number;
     UTCtimeStamp: number;
     UTCtimeStamp_str: string;
     

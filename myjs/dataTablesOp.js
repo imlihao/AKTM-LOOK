@@ -106,7 +106,7 @@ function invoceOp(id,pos) {
      $("#receiver_addr2").val(inv.receiver_addr);
      $("#opid2").val(getSysNameById(inv.opid));
 
-    inv.opid = dataManager.instance.data.sysu.user_id;
+    inv.opid = dataManager.instance.sys.user_id;
     $("#invselectwop2").val(dataManager.instance.getOdoById(id).operator_id);
     $("#invselectdriver2").val(dataManager.instance.getloaddoByid(id).diver_id);
 
@@ -243,7 +243,7 @@ function invsaddpre() {
     $("#invselectwop").html(wopse);
 
 
-    $("#opid").val(dataManager.instance.data.sysu.name);
+    $("#opid").val(dataManager.instance.sys.name);
 }
 
 
@@ -263,7 +263,7 @@ function invAdd() {
     inv.receiver_phone = $("#receiver_phone").val();
     inv.receiver_addr = $("#receiver_addr").val();
 
-    inv.opid = dataManager.instance.data.sysu.user_id;
+    inv.opid = dataManager.instance.sys.user_id;
 
 
     var wopid = $("#invselectwop").val();
@@ -851,6 +851,6 @@ function drowGrid2(){
 
 
 function showname(){    
-        $("#sysu_name").text("用户:" + dataManager.instance.dataMian.sysu.name + "("+getSysEnByType(dataManager.instance.dataMian.sysu.roletype)+")");
+        $("#sysu_name").text("用户:" + dataManager.instance.sys.name + "("+getSysEnByType(dataManager.instance.sys.roletype)+")");
         console.error( $("#sysu_name").val());
 }

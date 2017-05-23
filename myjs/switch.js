@@ -901,8 +901,8 @@ function user3(){
 function powerContrl() {
    
     console.error("权限控制");
-    if(dataManager.instance.data.sysu){
-       sy=dataManager.instance.data.sysu.roletype;
+    if(dataManager.instance.sys){
+       sy=dataManager.instance.sys.roletype;
        if(sy==roletype.diver){
            $("#2order").hide();
            $("#2odo").hide();

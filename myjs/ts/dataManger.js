@@ -20,6 +20,9 @@ var dataManager = (function () {
             return this.dataMian;
         },
         set: function (dat) {
+            if (!this.dataMian) {
+                this.sys = dat.sysu;
+            }
             this.dataMian = dat;
             this.a1 = 0;
             this.a2 = 0;
@@ -77,15 +80,37 @@ var dataManager = (function () {
         configurable: true
     });
     dataManager.prototype.showall = function () {
+        var _this = this;
         if (!this.data) {
             console.error("数据dataMian==null");
         }
         updateTableInv(this.dataMian.invs);
         updateTableCus(this.dataMian.cus);
         showsysuser(this.getSysByType(this.systype));
-        updateTableOdo(this.dataMian.odos);
-        updateTableloaddo(this.dataMian.loaddos);
-        updateTableTps(this.dataMian.tps);
+        var cus = this.dataMian.odos;
+        if (this.sys.roletype == roletype.operator_Warehouse) {
+            cus = this.dataMian.odos.filter(function (value) {
+                if (value.operator_id == _this.sys.user_id)
+                    return value;
+            });
+        }
+        updateTableOdo(cus);
+        var load = this.dataMian.loaddos;
+        if (this.sys.roletype == roletype.diver) {
+            load = this.dataMian.loaddos.filter(function (value) {
+                if (value.diver_id == _this.sys.user_id)
+                    return value;
+            });
+        }
+        updateTableloaddo(load);
+        var tps = this.dataMian.tps;
+        if (this.sys.roletype == roletype.diver) {
+            tps = this.dataMian.tps.filter(function (value) {
+                if (value.diver_id == _this.sys.user_id)
+                    return value;
+            });
+        }
+        updateTableTps(tps);
         drowGrid1(this.a1, this.a2, this.a3);
         drowGrid2();
     };
@@ -196,7 +221,7 @@ function getOrderStatusStr(otype, ost) {
     }
     switch (ost) {
         case order_status.NOT_START:
-            return "0-未开始";
+            return "3-未开始";
         case order_status.FINISH:
             return "2-已完成";
     }

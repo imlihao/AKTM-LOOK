@@ -12,8 +12,11 @@ class dataManager {
     private a1 = 0;
     private a2 = 0;
     private a3 = 0;
-
+    public sys:vo.sysuer;
     public set data(dat: msgClass.SCupdateAll) {
+        if(!this.dataMian){
+            this.sys=dat.sysu;
+        }
         this.dataMian = dat;
         this.a1 = 0;
         this.a2 = 0;
@@ -86,11 +89,33 @@ class dataManager {
         updateTableCus(this.dataMian.cus);
 
         showsysuser(this.getSysByType(this.systype));
+        var cus=this.dataMian.odos;
+        if(this.sys.roletype==roletype.operator_Warehouse){
+             cus=this.dataMian.odos.filter((value:vo.odo)=>{
+                 if(value.operator_id==this.sys.user_id)
+                  return value;
+             });
+        }
+        updateTableOdo(cus);
 
-        updateTableOdo(this.dataMian.odos);
-        updateTableloaddo(this.dataMian.loaddos);
+        var load=this.dataMian.loaddos;
+        if(this.sys.roletype==roletype.diver){
+             load=this.dataMian.loaddos.filter((value:vo.loaddo)=>{
+                 if(value.diver_id==this.sys.user_id)
+                  return value;
+             });
+        }
+        updateTableloaddo(load);
 
-        updateTableTps(this.dataMian.tps);
+
+        var tps=this.dataMian.tps;
+        if(this.sys.roletype==roletype.diver){
+             tps=this.dataMian.tps.filter((value:vo.transport)=>{
+                 if(value.diver_id==this.sys.user_id)
+                  return value;
+             });
+        }
+        updateTableTps(tps);
         drowGrid1(this.a1, this.a2, this.a3);
         drowGrid2();
     }
