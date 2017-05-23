@@ -553,6 +553,88 @@ function updateTableOdo(odos) {
 }
 
 
+/**
+ * 刷新odo
+ */
+function updateTablePdo(pdos) {
+    //测试数据
+    var dt = $("#dataTables-pdo");
+    if (!dt) {
+        console.log("没有找到表");
+        return;
+    }
+      dt.DataTable({
+        data: pdos,
+        destroy: "true",
+        responsive: true,
+        columns: [
+            {
+                "title": "单号",
+                "data": "pdo_id",
+                "width": "auto",
+
+            },
+            {
+                "title": "货物名称",
+                "data": "good_name",
+                "width": "auto",
+
+
+            },
+            {
+                "title": "数量",
+                "data": "good_num",
+                "width": "auto",
+
+            },
+            {
+                "title": "时间",
+                "data": "UTCtimeStamp",
+                "width": "auto",
+
+            },
+            {
+                "title": "订单状态",
+                "data": "pdo_status",
+                "width": "auto",
+
+            },
+            {
+                "data": null,
+                "width": "auto",
+            }],
+        columnDefs: [{
+            targets: 5,
+            render: function (data, type, row, meta) {
+                if(row.pdo_status!=order_status.ONGOING) return '<button  class="btn btn-success disabled"    >操作</button>';
+                return '<a type="button" class="btn btn-success "  data-toggle="modal" data-target="#odomodal"   onClick="pdoOp(' + "'" + row.pdo_id + "'" + ')" >操作</a>';
+            }
+        },
+        { "orderable": false, "targets": 1 },
+        ],
+    });
+}
+
+function pdoOp(id){ 
+   var html=new Array();
+    var pdo=dataManager.instance.getPdoById(id);
+    html.push(' <h3>单号：'+pdo.pdo_id+'</h3>  ');
+    html.push(' <h4>&nb sp</h4>  ');
+    html.push(' <h4>货物：'+pdo.good_name+'</h4>  ');
+    html.push(' <h4>数量：'+pdo.good_num+'</h4>  ');
+    html.push(' <h4>操作员：'+getSysNameById(pdo.operator_id)+'</h4>  ');
+    html.push(' <h4>时间：'+pdo.UTCtimeStamp+'</h4>  ');
+    $("#odomodal_body").html(html);
+    temp_pdoid=pdo.pdo_id; 
+}
+var temp_pdoid;
+
+function pdomark(){
+   marksolve(od_type.pdo,temp_pdoid);
+}
+
+
+
 function odoOp(id){ 
    var html=new Array();
     var odo=dataManager.instance.getOdoById(id);
